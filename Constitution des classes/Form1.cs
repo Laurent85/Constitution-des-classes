@@ -64,18 +64,24 @@ namespace Constitution_des_classes
             var range = feuilleEcoles.Range["B5:B" + dernierRang];
             TabControl tabControl = new TabControl();
             tabControl.Dock = DockStyle.Fill;
-            //if (range[5, 2].Text.Contains("6"))
+            TabPage tp1 = new TabPage("Tous les élèves");
+            tabControl.TabPages.Add(tp1);
+            this.Controls.Add(tabControl);
+            if (range[5, 1].Text.Contains("6"))
             {
                 for (int i = 1; i <= Int16.Parse(textBox1.Text); i++)
                 {
                     TabPage tp = new TabPage("6" + Classe);
                     tabControl.TabPages.Add(tp);
 
-                    
+                    //tp.Controls.Add(new System.Windows.Forms.Button());
                     this.Controls.Add(tabControl);
                     Classe++;
                 }
             }
+            TabPage t = tabControl.TabPages[2];
+            tabControl.SelectedTab = t; //go to tab 
+            t.Controls.Add(new System.Windows.Forms.Button());
         }
     }
 }
