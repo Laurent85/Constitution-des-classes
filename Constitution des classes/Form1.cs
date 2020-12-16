@@ -75,7 +75,7 @@ namespace Constitution_des_classes
                     tabControl.TabPages.Add(tp);
 
                     //tp.Controls.Add(new System.Windows.Forms.Button());
-                    this.Controls.Add(tabControl);
+                    //this.Controls.Add(tabControl);
                     Classe++;
                 }
             }
