@@ -11,6 +11,10 @@ namespace Constitution_des_classes
             InitializeComponent();
         }
 
+        public int Filles = 0;
+        public int Garcons = 0;
+        public int Eleves = 0;
+
         private void Form1_Load(object sender, EventArgs e)
         {
         }
@@ -80,7 +84,7 @@ namespace Constitution_des_classes
             // Display grid lines.
             liste.GridLines = true;
             // Sort the items in the list in ascending order.
-            liste.Sorting = SortOrder.Ascending;
+            //liste.Sorting = SortOrder.Ascending;
             liste.Scrollable = true;
             // Set to details view.
             liste.View = View.Details;
@@ -101,8 +105,11 @@ namespace Constitution_des_classes
             liste.Columns.Add(range1[0, 6].Text, -2, HorizontalAlignment.Left);
             liste.Columns.Add(range1[0, 7].Text, -2, HorizontalAlignment.Left);
 
-            for (int i = 4; i <= rowCount; i++)
+            for (int i = 0; i <= rowCount; i++)
             {
+
+                
+
                 for (int j = 1; j <= 7; j++)
                 {
                     try
@@ -118,7 +125,15 @@ namespace Constitution_des_classes
                 }
                 itm = new ListViewItem(arr);
                 liste.Items.Add(itm);
+
+                // Traitement garçons/filles
+                if (range1.Cells[i, 5].Value2.ToString().Contains("M")) Garcons++;
+                if (range1.Cells[i, 5].Value2.ToString().Contains("F")) Filles++;
+
+
             }
+            label1.Text = Garcons.ToString();
+            label2.Text = Filles.ToString();
         }
     }
 }

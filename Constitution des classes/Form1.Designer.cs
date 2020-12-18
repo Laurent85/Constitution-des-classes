@@ -35,6 +35,8 @@
             this.btnValiderConfig = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.Configuration = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.Configuration.SuspendLayout();
             this.SuspendLayout();
@@ -96,6 +98,8 @@
             // 
             // Configuration
             // 
+            this.Configuration.Controls.Add(this.label2);
+            this.Configuration.Controls.Add(this.label1);
             this.Configuration.Controls.Add(this.btnParcourir);
             this.Configuration.Controls.Add(this.btnValiderConfig);
             this.Configuration.Controls.Add(this.lblCheminFichierExcel);
@@ -108,6 +112,24 @@
             this.Configuration.TabIndex = 0;
             this.Configuration.Text = "Configuration";
             this.Configuration.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(173, 223);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "label1";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(173, 260);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "label2";
             // 
             // Principal
             // 
@@ -134,6 +156,8 @@
         private System.Windows.Forms.Button btnValiderConfig;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage Configuration;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
     }
 }
 
