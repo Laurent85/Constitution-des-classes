@@ -33,11 +33,14 @@
             this.txbNombreClasses = new System.Windows.Forms.TextBox();
             this.lblCheminFichierExcel = new System.Windows.Forms.Label();
             this.btnValiderConfig = new System.Windows.Forms.Button();
-            this.tabControl = new System.Windows.Forms.TabControl();
+            this.tabPrincipal = new System.Windows.Forms.TabControl();
             this.Configuration = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.tabControl.SuspendLayout();
+            this.lblFilles = new System.Windows.Forms.Label();
+            this.lblGarcons = new System.Windows.Forms.Label();
+            this.lblTotalEleves = new System.Windows.Forms.Label();
+            this.btn_Constituer_Classes = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tabPrincipal.SuspendLayout();
             this.Configuration.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -86,20 +89,23 @@
             this.btnValiderConfig.UseVisualStyleBackColor = true;
             this.btnValiderConfig.Click += new System.EventHandler(this.btn_Valider_Config);
             // 
-            // tabControl
+            // tabPrincipal
             // 
-            this.tabControl.Controls.Add(this.Configuration);
-            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl.Location = new System.Drawing.Point(0, 0);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(1380, 591);
-            this.tabControl.TabIndex = 5;
+            this.tabPrincipal.Controls.Add(this.Configuration);
+            this.tabPrincipal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabPrincipal.Location = new System.Drawing.Point(0, 0);
+            this.tabPrincipal.Name = "tabPrincipal";
+            this.tabPrincipal.SelectedIndex = 0;
+            this.tabPrincipal.Size = new System.Drawing.Size(1380, 591);
+            this.tabPrincipal.TabIndex = 5;
             // 
             // Configuration
             // 
-            this.Configuration.Controls.Add(this.label2);
-            this.Configuration.Controls.Add(this.label1);
+            this.Configuration.Controls.Add(this.groupBox1);
+            this.Configuration.Controls.Add(this.btn_Constituer_Classes);
+            this.Configuration.Controls.Add(this.lblTotalEleves);
+            this.Configuration.Controls.Add(this.lblFilles);
+            this.Configuration.Controls.Add(this.lblGarcons);
             this.Configuration.Controls.Add(this.btnParcourir);
             this.Configuration.Controls.Add(this.btnValiderConfig);
             this.Configuration.Controls.Add(this.lblCheminFichierExcel);
@@ -113,34 +119,63 @@
             this.Configuration.Text = "Configuration";
             this.Configuration.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // lblFilles
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(173, 223);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "label1";
+            this.lblFilles.AutoSize = true;
+            this.lblFilles.Location = new System.Drawing.Point(173, 260);
+            this.lblFilles.Name = "lblFilles";
+            this.lblFilles.Size = new System.Drawing.Size(35, 13);
+            this.lblFilles.TabIndex = 6;
+            this.lblFilles.Text = "label2";
             // 
-            // label2
+            // lblGarcons
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(173, 260);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "label2";
+            this.lblGarcons.AutoSize = true;
+            this.lblGarcons.Location = new System.Drawing.Point(173, 223);
+            this.lblGarcons.Name = "lblGarcons";
+            this.lblGarcons.Size = new System.Drawing.Size(35, 13);
+            this.lblGarcons.TabIndex = 5;
+            this.lblGarcons.Text = "label1";
+            // 
+            // lblTotalEleves
+            // 
+            this.lblTotalEleves.AutoSize = true;
+            this.lblTotalEleves.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalEleves.Location = new System.Drawing.Point(173, 290);
+            this.lblTotalEleves.Name = "lblTotalEleves";
+            this.lblTotalEleves.Size = new System.Drawing.Size(41, 13);
+            this.lblTotalEleves.TabIndex = 7;
+            this.lblTotalEleves.Text = "label3";
+            // 
+            // btn_Constituer_Classes
+            // 
+            this.btn_Constituer_Classes.Location = new System.Drawing.Point(176, 369);
+            this.btn_Constituer_Classes.Name = "btn_Constituer_Classes";
+            this.btn_Constituer_Classes.Size = new System.Drawing.Size(122, 23);
+            this.btn_Constituer_Classes.TabIndex = 8;
+            this.btn_Constituer_Classes.Text = "Constituer les classes";
+            this.btn_Constituer_Classes.UseVisualStyleBackColor = true;
+            this.btn_Constituer_Classes.Click += new System.EventHandler(this.btn_Constituer_Classes_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Location = new System.Drawing.Point(692, 192);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(328, 263);
+            this.groupBox1.TabIndex = 9;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "groupBox1";
             // 
             // Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1380, 591);
-            this.Controls.Add(this.tabControl);
+            this.Controls.Add(this.tabPrincipal);
             this.Name = "Principal";
             this.Text = "Constitution des classes";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.tabControl.ResumeLayout(false);
+            this.tabPrincipal.ResumeLayout(false);
             this.Configuration.ResumeLayout(false);
             this.Configuration.PerformLayout();
             this.ResumeLayout(false);
@@ -154,10 +189,13 @@
         private System.Windows.Forms.TextBox txbNombreClasses;
         private System.Windows.Forms.Label lblCheminFichierExcel;
         private System.Windows.Forms.Button btnValiderConfig;
-        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabControl tabPrincipal;
         private System.Windows.Forms.TabPage Configuration;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblFilles;
+        private System.Windows.Forms.Label lblGarcons;
+        private System.Windows.Forms.Label lblTotalEleves;
+        private System.Windows.Forms.Button btn_Constituer_Classes;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }
 
