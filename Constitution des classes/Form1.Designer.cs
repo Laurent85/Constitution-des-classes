@@ -35,25 +35,25 @@
             this.btnValiderConfig = new System.Windows.Forms.Button();
             this.tabPrincipal = new System.Windows.Forms.TabControl();
             this.Configuration = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.grpBilan = new System.Windows.Forms.GroupBox();
+            this.cbxNbAjoutEleves = new System.Windows.Forms.ComboBox();
             this.grpResume = new System.Windows.Forms.GroupBox();
+            this.lblNbGroupesOptions = new System.Windows.Forms.Label();
+            this.lblNbOptions = new System.Windows.Forms.Label();
+            this.lblNbClasses = new System.Windows.Forms.Label();
             this.lblGarcons = new System.Windows.Forms.Label();
             this.lblFilles = new System.Windows.Forms.Label();
             this.lblTotalEleves = new System.Windows.Forms.Label();
             this.grpMariagesOptions = new System.Windows.Forms.GroupBox();
             this.grpOptions = new System.Windows.Forms.GroupBox();
             this.grpEffectifs = new System.Windows.Forms.GroupBox();
-            this.cbxNbAjoutEleves = new System.Windows.Forms.ComboBox();
-            this.grpBilan = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.lblNbClasses = new System.Windows.Forms.Label();
-            this.lblNbOptions = new System.Windows.Forms.Label();
-            this.lblNbGroupesOptions = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
             this.tabPrincipal.SuspendLayout();
             this.Configuration.SuspendLayout();
-            this.grpResume.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.grpResume.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnParcourir
@@ -129,6 +129,95 @@
             this.Configuration.TabIndex = 0;
             this.Configuration.Text = "Configuration";
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.LightGray;
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.btnParcourir);
+            this.panel1.Controls.Add(this.lblClasses);
+            this.panel1.Controls.Add(this.txbNombreClasses);
+            this.panel1.Controls.Add(this.lblCheminFichierExcel);
+            this.panel1.Controls.Add(this.btnValiderConfig);
+            this.panel1.Location = new System.Drawing.Point(31, 129);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(813, 207);
+            this.panel1.TabIndex = 16;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.Orchid;
+            this.label2.Location = new System.Drawing.Point(27, 12);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(126, 26);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Initialisation";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Forte", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.label1.Location = new System.Drawing.Point(470, 43);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(460, 44);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "Constitution des classes";
+            // 
+            // grpBilan
+            // 
+            this.grpBilan.BackColor = System.Drawing.Color.LightGray;
+            this.grpBilan.Location = new System.Drawing.Point(31, 732);
+            this.grpBilan.Name = "grpBilan";
+            this.grpBilan.Size = new System.Drawing.Size(1567, 219);
+            this.grpBilan.TabIndex = 14;
+            this.grpBilan.TabStop = false;
+            this.grpBilan.Text = "Bilan";
+            // 
+            // cbxNbAjoutEleves
+            // 
+            this.cbxNbAjoutEleves.BackColor = System.Drawing.Color.LightGray;
+            this.cbxNbAjoutEleves.FormattingEnabled = true;
+            this.cbxNbAjoutEleves.Items.AddRange(new object[] {
+            "Maxi",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31"});
+            this.cbxNbAjoutEleves.Location = new System.Drawing.Point(1224, 66);
+            this.cbxNbAjoutEleves.Name = "cbxNbAjoutEleves";
+            this.cbxNbAjoutEleves.Size = new System.Drawing.Size(67, 21);
+            this.cbxNbAjoutEleves.TabIndex = 13;
+            this.cbxNbAjoutEleves.SelectedIndexChanged += new System.EventHandler(this.cbxNbAjoutEleves_SelectedIndexChanged);
+            // 
             // grpResume
             // 
             this.grpResume.BackColor = System.Drawing.Color.LightGray;
@@ -144,6 +233,33 @@
             this.grpResume.TabIndex = 12;
             this.grpResume.TabStop = false;
             this.grpResume.Text = "Résumé";
+            // 
+            // lblNbGroupesOptions
+            // 
+            this.lblNbGroupesOptions.AutoSize = true;
+            this.lblNbGroupesOptions.Location = new System.Drawing.Point(32, 206);
+            this.lblNbGroupesOptions.Name = "lblNbGroupesOptions";
+            this.lblNbGroupesOptions.Size = new System.Drawing.Size(145, 13);
+            this.lblNbGroupesOptions.TabIndex = 10;
+            this.lblNbGroupesOptions.Text = "Nombre de groupes d\'options";
+            // 
+            // lblNbOptions
+            // 
+            this.lblNbOptions.AutoSize = true;
+            this.lblNbOptions.Location = new System.Drawing.Point(32, 175);
+            this.lblNbOptions.Name = "lblNbOptions";
+            this.lblNbOptions.Size = new System.Drawing.Size(89, 13);
+            this.lblNbOptions.TabIndex = 9;
+            this.lblNbOptions.Text = "Nombre d\'options";
+            // 
+            // lblNbClasses
+            // 
+            this.lblNbClasses.AutoSize = true;
+            this.lblNbClasses.Location = new System.Drawing.Point(32, 143);
+            this.lblNbClasses.Name = "lblNbClasses";
+            this.lblNbClasses.Size = new System.Drawing.Size(97, 13);
+            this.lblNbClasses.TabIndex = 8;
+            this.lblNbClasses.Text = "Nombre de classes";
             // 
             // lblGarcons
             // 
@@ -204,122 +320,6 @@
             this.grpEffectifs.TabStop = false;
             this.grpEffectifs.Text = "Effectifs classes";
             // 
-            // cbxNbAjoutEleves
-            // 
-            this.cbxNbAjoutEleves.BackColor = System.Drawing.Color.LightGray;
-            this.cbxNbAjoutEleves.FormattingEnabled = true;
-            this.cbxNbAjoutEleves.Items.AddRange(new object[] {
-            "Maxi",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "17",
-            "18",
-            "19",
-            "20",
-            "21",
-            "22",
-            "23",
-            "24",
-            "25",
-            "26",
-            "27",
-            "28",
-            "29",
-            "30",
-            "31"});
-            this.cbxNbAjoutEleves.Location = new System.Drawing.Point(1224, 66);
-            this.cbxNbAjoutEleves.Name = "cbxNbAjoutEleves";
-            this.cbxNbAjoutEleves.Size = new System.Drawing.Size(67, 21);
-            this.cbxNbAjoutEleves.TabIndex = 13;
-            this.cbxNbAjoutEleves.SelectedIndexChanged += new System.EventHandler(this.cbxNbAjoutEleves_SelectedIndexChanged);
-            // 
-            // grpBilan
-            // 
-            this.grpBilan.BackColor = System.Drawing.Color.LightGray;
-            this.grpBilan.Location = new System.Drawing.Point(31, 732);
-            this.grpBilan.Name = "grpBilan";
-            this.grpBilan.Size = new System.Drawing.Size(1567, 219);
-            this.grpBilan.TabIndex = 14;
-            this.grpBilan.TabStop = false;
-            this.grpBilan.Text = "Bilan";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Forte", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label1.Location = new System.Drawing.Point(470, 43);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(460, 44);
-            this.label1.TabIndex = 15;
-            this.label1.Text = "Constitution des classes";
-            // 
-            // lblNbClasses
-            // 
-            this.lblNbClasses.AutoSize = true;
-            this.lblNbClasses.Location = new System.Drawing.Point(32, 143);
-            this.lblNbClasses.Name = "lblNbClasses";
-            this.lblNbClasses.Size = new System.Drawing.Size(97, 13);
-            this.lblNbClasses.TabIndex = 8;
-            this.lblNbClasses.Text = "Nombre de classes";
-            // 
-            // lblNbOptions
-            // 
-            this.lblNbOptions.AutoSize = true;
-            this.lblNbOptions.Location = new System.Drawing.Point(32, 175);
-            this.lblNbOptions.Name = "lblNbOptions";
-            this.lblNbOptions.Size = new System.Drawing.Size(89, 13);
-            this.lblNbOptions.TabIndex = 9;
-            this.lblNbOptions.Text = "Nombre d\'options";
-            // 
-            // lblNbGroupesOptions
-            // 
-            this.lblNbGroupesOptions.AutoSize = true;
-            this.lblNbGroupesOptions.Location = new System.Drawing.Point(32, 206);
-            this.lblNbGroupesOptions.Name = "lblNbGroupesOptions";
-            this.lblNbGroupesOptions.Size = new System.Drawing.Size(145, 13);
-            this.lblNbGroupesOptions.TabIndex = 10;
-            this.lblNbGroupesOptions.Text = "Nombre de groupes d\'options";
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.LightGray;
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.btnParcourir);
-            this.panel1.Controls.Add(this.lblClasses);
-            this.panel1.Controls.Add(this.txbNombreClasses);
-            this.panel1.Controls.Add(this.lblCheminFichierExcel);
-            this.panel1.Controls.Add(this.btnValiderConfig);
-            this.panel1.Location = new System.Drawing.Point(31, 129);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(813, 207);
-            this.panel1.TabIndex = 16;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.Orchid;
-            this.label2.Location = new System.Drawing.Point(27, 12);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(126, 26);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Initialisation";
-            // 
             // Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -332,10 +332,10 @@
             this.tabPrincipal.ResumeLayout(false);
             this.Configuration.ResumeLayout(false);
             this.Configuration.PerformLayout();
-            this.grpResume.ResumeLayout(false);
-            this.grpResume.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.grpResume.ResumeLayout(false);
+            this.grpResume.PerformLayout();
             this.ResumeLayout(false);
 
         }

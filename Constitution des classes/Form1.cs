@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Net.Mime;
 using System.Reflection;
 using System.Windows.Forms;
 using Label = System.Windows.Forms.Label;
@@ -742,7 +741,7 @@ namespace Constitution_des_classes
 
         private void TuerProcessus(string processus)
         {
-            var process = System.Diagnostics.Process.GetProcessesByName(processus);
+            var process = Process.GetProcessesByName(processus);
             foreach (var p in process)
             {
                 if (!string.IsNullOrEmpty(p.ProcessName))
@@ -972,7 +971,7 @@ namespace Constitution_des_classes
 
         private void RestartProgram()
         {
-            // Get file path of current process 
+            // Get file path of current process
             var filePath = Assembly.GetExecutingAssembly().Location;
             //var filePath = Application.ExecutablePath;  // for WinForms
 
