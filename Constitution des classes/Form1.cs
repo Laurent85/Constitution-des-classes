@@ -1,8 +1,12 @@
 ﻿using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.Net.Mime;
 using System.Reflection;
 using System.Windows.Forms;
+using Label = System.Windows.Forms.Label;
 
 namespace Constitution_des_classes
 {
@@ -13,27 +17,42 @@ namespace Constitution_des_classes
             InitializeComponent();
         }
 
-        public int NbFilles = 0;
-        public int NbGarcons = 0;
+        public int NbFilles;
+        public int NbGarcons;
         public int NbElevesTotal;
         public int MoyenneElevesClasse;
+        public int MoyenneElevesClasseEtReste;
+        public int Reste;
         public int NbDivisions;
-        public int NbEcoles = 0;
-        public int NbLignesEcoles = 0;
-        public int NbLignesMariagesOptions = 0;
+        public int NbEcoles;
+        public int NbLignesEcoles;
+        public int NbLignesMariagesOptions;
+        public int NbLignesOptions;
         public int NumLigneExiste;
-        public int VerifieLigneExiste = 0;
-        public int NbOptions = 0;
-        public int NbMariagesOptions = 0;
-        public DataGridView listeEleves = new DataGridView();
-        public DataGridView listeEcoles = new DataGridView();
-        public DataGridView listeOptions = new DataGridView();
-        public DataGridView listeMariagesOptions = new DataGridView();
-        public Range range;
+        public int VerifieLigneExiste;
+        public int NbOptions;
+        public int NbMariagesOptions;
+        public string Division;
+        public DataGridView ListeEleves = new DataGridView();
+        public DataGridView ListeEcoles = new DataGridView();
+        public DataGridView ListeOptions = new DataGridView();
+        public DataGridView ListeMariagesOptions = new DataGridView();
+        public DataGridView ListeBilan = new DataGridView();
+        public Range Range;
+        private readonly List<Label> _lblEffectifs = new List<Label>();
+        private readonly List<System.Windows.Forms.TextBox> _txbEffectifs = new List<System.Windows.Forms.TextBox>();
+        private readonly List<Label> _lblRemplirClasse = new List<Label>();
+        private readonly List<Label> _lblOptions = new List<Label>();
+        private readonly List<Label> _lblNbOptions = new List<Label>();
+        private readonly List<Label> _lblMariagesOptions = new List<Label>();
+        private readonly List<Label> _lblNbMariagesOptions = new List<Label>();
+        private readonly List<Label> _lblClassesMariagesOptions = new List<Label>();
+        private readonly List<System.Windows.Forms.CheckBox> _cbxMariagesOptions = new List<System.Windows.Forms.CheckBox>();
 
         private void Form1_Load(object sender, EventArgs e)
         {
             TuerProcessus("Excel");
+            cbxNbAjoutEleves.SelectedIndex = 0;
         }
 
         private void btn_Parcourir(object sender, EventArgs e)
@@ -69,11 +88,12 @@ namespace Constitution_des_classes
             liste.EditMode = DataGridViewEditMode.EditOnEnter;
         }
 
-        private void CréationOnglet(TabPage NomOnglet, string TitreOnglet, DataGridView liste)
+        private void CréationOnglet(TabPage nomOnglet, string titreOnglet, DataGridView liste)
         {
-            NomOnglet = new TabPage(TitreOnglet);
-            tabPrincipal.TabPages.Add(NomOnglet);
-            NomOnglet.Controls.Add(liste);
+            if (nomOnglet == null) throw new ArgumentNullException(nameof(nomOnglet));
+            nomOnglet = new TabPage(titreOnglet);
+            tabPrincipal.TabPages.Add(nomOnglet);
+            nomOnglet.Controls.Add(liste);
             paramètresListe(liste);
         }
 
@@ -84,126 +104,168 @@ namespace Constitution_des_classes
 
             var fichierEcolesXlsx = excelApplication.Workbooks.Open(lblCheminFichierExcel.Text);
             var feuilleEcoles = (Worksheet)fichierEcolesXlsx.ActiveSheet;
-            int dernierRang = feuilleEcoles.Cells.Find("*", System.Reflection.Missing.Value,
-                System.Reflection.Missing.Value, System.Reflection.Missing.Value,
+            int dernierRang = feuilleEcoles.Cells.Find("*", Missing.Value,
+                Missing.Value, Missing.Value,
                 XlSearchOrder.xlByRows, XlSearchDirection.xlPrevious,
-                false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
-            range = feuilleEcoles.Range["A5:J" + dernierRang];
+                false, Missing.Value, Missing.Value).Row;
+            Range = feuilleEcoles.Range["A5:J" + dernierRang];
             tabPrincipal.Dock = DockStyle.Fill;
 
-            CréationOnglet(new TabPage("OngletEleves"), "Tous les élèves", listeEleves);
-            CréationOnglet(new TabPage("OngletEcoles"), "Ecoles primaires", listeEcoles);
-            CréationOnglet(new TabPage("OngletOptions"), "Options", listeOptions);
-            CréationOnglet(new TabPage("OngletMariagesOptions"), "Mariages d'options", listeMariagesOptions);
+            CréationOnglet(new TabPage("OngletEleves"), "Tous les élèves", ListeEleves);
+            CréationOnglet(new TabPage("OngletEcoles"), "Ecoles primaires", ListeEcoles);
+            CréationOnglet(new TabPage("OngletOptions"), "Options", ListeOptions);
+            CréationOnglet(new TabPage("OngletMariagesOptions"), "Mariages d'options", ListeMariagesOptions);
 
-            string division = range[5, 2].Text.Substring(0, 1);
-            NbDivisions = Int16.Parse(txbNombreClasses.Text);
-
-            for (int i = 1; i <= NbDivisions; i++)
+            foreach (Range cell in Range)
             {
-                TabPage OngletsClasses = new TabPage(division + classe);
-                tabPrincipal.TabPages.Add(OngletsClasses);
-                var tableau_classe = new DataGridView();
-                tableau_classe.Name = "liste" + division + classe;
-                //var v = ("effectif" + division + classe).ToString();
-                //System.Windows.Forms.Label vi = new System.Windows.Forms.Label();
-                //vi.Name = v;
-                //vi.Text = "toto";
-                //groupBox1.Controls.Add(vi);
-                paramètresListe(tableau_classe);
-                OngletsClasses.Controls.Add(tableau_classe);
-                tableau_classe.Columns.Add(range[0, 3].Text, range[0, 3].Text);
-                tableau_classe.Columns.Add(range[0, 4].Text, range[0, 4].Text);
-                tableau_classe.Columns.Add(range[0, 7].Text, range[0, 7].Text);
-                tableau_classe.Columns.Add(range[0, 8].Text, range[0, 8].Text);
-                tableau_classe.Columns.Add(range[0, 9].Text, range[0, 9].Text);
-                tableau_classe.Columns.Add(range[0, 10].Text, range[0, 10].Text);
+                if (cell.Text.Contains("Accompagnement"))
+                {
+                    cell.Value = @"ADP";
+                }
+
+                if (cell.Text.Contains("EUROPEEN"))
+                {
+                    cell.Value = @"ANGLAIS EURO";
+                }
+            }
+
+            Division = Range[5, 2].Text.Substring(0, 1);
+            NbDivisions = Int16.Parse(txbNombreClasses.Text);
+            int y = 40;
+            int y1 = 40;
+            int y2 = 80;
+            int x1 = 400;
+
+            for (int i = 0; i < NbDivisions; i++)
+            {
+                TabPage ongletsClasses = new TabPage(Division + classe);
+                tabPrincipal.TabPages.Add(ongletsClasses);
+                var tableauClasse = new DataGridView { Name = "liste" + Division + classe };
+
+                paramètresListe(tableauClasse);
+                ongletsClasses.Controls.Add(tableauClasse);
+                tableauClasse.Columns.Add(Range[0, 3].Text, Range[0, 3].Text);
+                tableauClasse.Columns.Add(Range[0, 4].Text, Range[0, 4].Text);
+                tableauClasse.Columns.Add(Range[0, 7].Text, Range[0, 7].Text);
+                tableauClasse.Columns.Add(Range[0, 8].Text, Range[0, 8].Text);
+                tableauClasse.Columns.Add(Range[0, 9].Text, Range[0, 9].Text);
+                tableauClasse.Columns.Add(Range[0, 10].Text, Range[0, 10].Text);
+                ListeBilan.Columns.Add(Division + classe, Division + classe);
+                ListeBilan.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+                ListeBilan.Columns[i].Width = 1500 / NbDivisions;
+
+                ListeBilan.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
+                ListeBilan.EnableHeadersVisualStyles = false;
+                ListeBilan.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                ListeBilan.Columns[i].HeaderCell.Style.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Pixel);
                 classe++;
             }
 
-            int rowCount = range.Rows.Count;
+            grpBilan.Controls.Add(ListeBilan);
+            ListeBilan.Dock = DockStyle.Fill;
+            for (int i = 1; i <= 15; i++)
+            {
+                ListeBilan.Rows.Add();
+            }
 
-            listeEleves.Columns.Add(range[0, 1].Text, range[0, 1].Text);
-            listeEleves.Columns.Add(range[0, 2].Text, range[0, 2].Text);
-            listeEleves.Columns.Add(range[0, 3].Text, range[0, 3].Text);
-            listeEleves.Columns.Add(range[0, 4].Text, range[0, 4].Text);
-            listeEleves.Columns.Add(range[0, 5].Text, range[0, 5].Text);
-            listeEleves.Columns.Add(range[0, 6].Text, range[0, 6].Text);
-            listeEleves.Columns.Add(range[0, 7].Text, range[0, 7].Text);
-            listeEleves.Columns.Add(range[0, 8].Text, range[0, 8].Text);
-            listeEleves.Columns.Add(range[0, 9].Text, range[0, 9].Text);
-            listeEleves.Columns.Add(range[0, 10].Text, range[0, 10].Text);
+            ListeBilan.Rows[0].Cells[0].Selected = false;
 
-            listeEcoles.Columns.Add("Nom", "Nom");
-            listeEcoles.Columns.Add("Elèves", "Elèves");
+            int rowCount = Range.Rows.Count;
 
-            listeOptions.Columns.Add("Nom", "Nom");
-            listeOptions.Columns.Add("Elèves", "Elèves");
+            ListeEleves.Columns.Add(Range[0, 1].Text, Range[0, 1].Text);
+            ListeEleves.Columns.Add(Range[0, 2].Text, Range[0, 2].Text);
+            ListeEleves.Columns.Add(Range[0, 3].Text, Range[0, 3].Text);
+            ListeEleves.Columns.Add(Range[0, 4].Text, Range[0, 4].Text);
+            ListeEleves.Columns.Add(Range[0, 5].Text, Range[0, 5].Text);
+            ListeEleves.Columns.Add(Range[0, 6].Text, Range[0, 6].Text);
+            ListeEleves.Columns.Add(Range[0, 7].Text, Range[0, 7].Text);
+            ListeEleves.Columns.Add(Range[0, 8].Text, Range[0, 8].Text);
+            ListeEleves.Columns.Add(Range[0, 9].Text, Range[0, 9].Text);
+            ListeEleves.Columns.Add(Range[0, 10].Text, Range[0, 10].Text);
 
-            listeMariagesOptions.Columns.Add("Nom", "Nom");
-            listeMariagesOptions.Columns.Add("Elèves", "Elèves");
+            ListeEcoles.Columns.Add("Nom", "Nom");
+            ListeEcoles.Columns.Add("Elèves", "Elèves");
 
-            DataGridViewComboBoxColumn ColonneComboListeEcoles = new DataGridViewComboBoxColumn();
-            listeEcoles.Columns.Add(ColonneComboListeEcoles);
-            ColonneComboListeEcoles.HeaderText = "Liste des Elèves           ";
+            ListeOptions.Columns.Add("Nom", "Nom");
+            ListeOptions.Columns.Add("Elèves", "Elèves");
 
-            DataGridViewComboBoxColumn ColonneComboListeMariagesOptions = new DataGridViewComboBoxColumn();
-            listeMariagesOptions.Columns.Add(ColonneComboListeMariagesOptions);
-            ColonneComboListeMariagesOptions.HeaderText = "Liste des Elèves           ";
+            ListeMariagesOptions.Columns.Add("Nom", "Nom");
+            ListeMariagesOptions.Columns.Add("Elèves", "Elèves");
+
+            DataGridViewComboBoxColumn colonneComboListeEcoles = new DataGridViewComboBoxColumn();
+            ListeEcoles.Columns.Add(colonneComboListeEcoles);
+            colonneComboListeEcoles.HeaderText = @"Liste des Elèves           ";
+
+            DataGridViewComboBoxColumn colonneComboListeMariagesOptions = new DataGridViewComboBoxColumn();
+            ListeMariagesOptions.Columns.Add(colonneComboListeMariagesOptions);
+            colonneComboListeMariagesOptions.HeaderText = @"Liste des Elèves           ";
+
+            DataGridViewComboBoxColumn colonneComboListeOptions = new DataGridViewComboBoxColumn();
+            ListeOptions.Columns.Add(colonneComboListeOptions);
+            colonneComboListeOptions.HeaderText = @"Liste des Elèves           ";
 
             for (int i = 1; i <= rowCount; i++)
             {
-                listeEleves.Rows.Add();
+                ListeEleves.Rows.Add();
 
                 for (int j = 1; j <= 10; j++)
                 {
                     ListViewItem cellule = new ListViewItem();
 
-                    if ((range.Cells[i, j].Value2) != null)
+                    if ((Range.Cells[i, j].Value2) != null)
                     {
-                        cellule.Text = range.Cells[i, j].Value2.ToString();
-                        listeEleves.Rows[i - 1].Cells[j - 1].Value = cellule.Text;
+                        cellule.Text = Range.Cells[i, j].Value2.ToString();
+                        ListeEleves.Rows[i - 1].Cells[j - 1].Value = cellule.Text;
 
                         if (j == 5)
                         {
-                            RechercherTexte(listeEcoles, cellule.Text, 0);
+                            RechercherTexte(ListeEcoles, cellule.Text, 0);
 
                             if (VerifieLigneExiste == 1)
                             {
-                                NbEcoles = Int16.Parse(listeEcoles.Rows[NumLigneExiste].Cells[1].Value.ToString()) + 1;
-                                listeEcoles.Rows[NumLigneExiste].Cells[1].Value = NbEcoles.ToString();
-                                (listeEcoles.Rows[NumLigneExiste].Cells[2] as DataGridViewComboBoxCell).Items.Add(listeEleves.Rows[i - 1].Cells[j - 3].Value);
+                                NbEcoles = Int16.Parse(ListeEcoles.Rows[NumLigneExiste].Cells[1].Value.ToString()) + 1;
+                                ListeEcoles.Rows[NumLigneExiste].Cells[1].Value = NbEcoles.ToString();
+                                (ListeEcoles.Rows[NumLigneExiste].Cells[2] as DataGridViewComboBoxCell)?.Items.Add(
+                                    ListeEleves.Rows[i - 1].Cells[2].Value);
                             }
 
                             if (VerifieLigneExiste == 0)
                             {
                                 NbEcoles = 1;
-                                listeEcoles.Rows.Add(cellule.Text, NbEcoles.ToString());
+                                ListeEcoles.Rows.Add(cellule.Text, NbEcoles.ToString());
 
-                                DataGridViewComboBoxCell CelluleComboBoxListeEcoles = new DataGridViewComboBoxCell();
-                                CelluleComboBoxListeEcoles.DropDownWidth = 200;
-                                CelluleComboBoxListeEcoles.Items.Add(listeEleves.Rows[i - 1].Cells[j - 3].Value);
-                                listeEcoles.Rows[NbLignesEcoles].Cells[2] = CelluleComboBoxListeEcoles;
+                                DataGridViewComboBoxCell celluleComboBoxListeEcoles = new DataGridViewComboBoxCell();
+                                celluleComboBoxListeEcoles.DropDownWidth = 200;
+                                celluleComboBoxListeEcoles.Items.Add(ListeEleves.Rows[i - 1].Cells[2].Value);
+                                ListeEcoles.Rows[NbLignesEcoles].Cells[2] = celluleComboBoxListeEcoles;
                                 NbEcoles = 0;
                                 NbLignesEcoles++;
                             }
                         }
 
-                        if (j == 6 || j == 7 || j == 8 || j == 9 || j == 10)
+                        if (j == 7 || j == 8 || j == 9 || j == 10)
                         {
-                            RechercherTexte(listeOptions, cellule.Text, 0);
+                            RechercherTexte(ListeOptions, cellule.Text, 0);
 
                             if (VerifieLigneExiste == 1)
                             {
-                                NbOptions = Int16.Parse(listeOptions.Rows[NumLigneExiste].Cells[1].Value.ToString()) + 1;
-                                listeOptions.Rows[NumLigneExiste].Cells[1].Value = NbOptions.ToString();
+                                NbOptions = Int16.Parse(ListeOptions.Rows[NumLigneExiste].Cells[1].Value.ToString()) +
+                                            1;
+                                ListeOptions.Rows[NumLigneExiste].Cells[1].Value = NbOptions.ToString();
+                                (ListeOptions.Rows[NumLigneExiste].Cells[2] as DataGridViewComboBoxCell).Items.Add(
+                                    ListeEleves.Rows[i - 1].Cells[2].Value);
                             }
 
                             if (VerifieLigneExiste == 0)
                             {
                                 NbOptions = 1;
-                                listeOptions.Rows.Add(cellule.Text, NbOptions.ToString());
+                                ListeOptions.Rows.Add(cellule.Text, NbOptions.ToString());
+                                DataGridViewComboBoxCell celluleComboBoxListeOptions = new DataGridViewComboBoxCell();
+                                celluleComboBoxListeOptions.DropDownWidth = 200;
+                                celluleComboBoxListeOptions.Items.Add(ListeEleves.Rows[i - 1].Cells[2].Value);
+                                ListeOptions.Rows[NbLignesOptions].Cells[2] = celluleComboBoxListeOptions;
                                 NbOptions = 0;
+                                NbLignesOptions++;
                             }
                         }
 
@@ -212,65 +274,470 @@ namespace Constitution_des_classes
                             cellule.Text = "";
                             for (int c = 7; c <= 10; c++)
                             {
-                                if ((range.Cells[i, c].Value2) != null)
+                                if ((Range.Cells[i, c].Value2) != null)
 
                                 {
                                     if (c == 7)
                                     {
-                                        cellule.Text = range.Cells[i, c].Value2.ToString();
+                                        cellule.Text = Range.Cells[i, c].Value2.ToString();
                                     }
                                     else
-                                        cellule.Text = cellule.Text + "/" + range.Cells[i, c].Value2.ToString();
+                                    {
+                                        cellule.Text = cellule.Text + @"/" + Range.Cells[i, c].Value2.ToString();
+                                    }
                                 }
                             }
 
-                            RechercherTexte(listeMariagesOptions, cellule.Text, 0);
+                            RechercherTexte(ListeMariagesOptions, cellule.Text, 0);
 
                             if (VerifieLigneExiste == 1)
                             {
-                                NbMariagesOptions = Int16.Parse(listeMariagesOptions.Rows[NumLigneExiste].Cells[1].Value.ToString()) + 1;
-                                listeMariagesOptions.Rows[NumLigneExiste].Cells[1].Value = NbMariagesOptions.ToString();
-                                (listeMariagesOptions.Rows[NumLigneExiste].Cells[2] as DataGridViewComboBoxCell).Items.Add(listeEleves.Rows[i - 1].Cells[j - 4].Value);
-                                //if (cellule.Text == "/ANGLAIS LV1/ESPAGNOL LV2")
-                                //{
-                                //    DataGridView liste = (DataGridView)this.Controls.Find("liste4A", true)[0];
-                                //    liste.Rows.Add(range.Cells[i, 3].Value2.ToString(), range.Cells[i, 4].Value2.ToString(), range.Cells[i, 8].Value2.ToString());
-                                //}
+                                NbMariagesOptions =
+                                    Int16.Parse(ListeMariagesOptions.Rows[NumLigneExiste].Cells[1].Value.ToString()) +
+                                    1;
+                                ListeMariagesOptions.Rows[NumLigneExiste].Cells[1].Value = NbMariagesOptions.ToString();
+                                (ListeMariagesOptions.Rows[NumLigneExiste].Cells[2] as DataGridViewComboBoxCell).Items
+                                    .Add(ListeEleves.Rows[i - 1].Cells[2].Value);
                             }
 
                             if (VerifieLigneExiste == 0)
                             {
                                 NbMariagesOptions = 1;
-                                listeMariagesOptions.Rows.Add(cellule.Text, NbMariagesOptions.ToString());
-                                DataGridViewComboBoxCell CelluleComboBoxListeMariagesOptions = new DataGridViewComboBoxCell();
-                                CelluleComboBoxListeMariagesOptions.DropDownWidth = 200;
-                                CelluleComboBoxListeMariagesOptions.Items.Add(listeEleves.Rows[i - 1].Cells[j - 4].Value);
-                                listeMariagesOptions.Rows[NbLignesMariagesOptions].Cells[2] = CelluleComboBoxListeMariagesOptions;
+                                ListeMariagesOptions.Rows.Add(cellule.Text, NbMariagesOptions.ToString());
+                                DataGridViewComboBoxCell celluleComboBoxListeMariagesOptions =
+                                    new DataGridViewComboBoxCell();
+                                celluleComboBoxListeMariagesOptions.DropDownWidth = 200;
+                                celluleComboBoxListeMariagesOptions.Items.Add(ListeEleves.Rows[i - 1].Cells[2].Value);
+                                ListeMariagesOptions.Rows[NbLignesMariagesOptions].Cells[2] =
+                                    celluleComboBoxListeMariagesOptions;
                                 NbMariagesOptions = 0;
                                 NbLignesMariagesOptions++;
-                                //if (cellule.Text == "/ANGLAIS LV1/ESPAGNOL LV2")
-                                //{
-                                //    DataGridView liste = (DataGridView)this.Controls.Find("liste4A", true)[0];
-                                //    liste.Rows.Add(range.Cells[i, 3].Value2.ToString(), range.Cells[i, 4].Value2.ToString(), range.Cells[i, 8].Value2.ToString());
-                                //}
                             }
                         }
                     }
                 }
 
-                if (range.Cells[i, 4].Value2.ToString().Contains("M")) NbGarcons++;
-                if (range.Cells[i, 4].Value2.ToString().Contains("F")) NbFilles++;
+                if (Range.Cells[i, 4].Value2.ToString().Contains("M")) NbGarcons++;
+                if (Range.Cells[i, 4].Value2.ToString().Contains("F")) NbFilles++;
             }
 
-            lblGarcons.Text = NbGarcons.ToString() + " garçons";
-            lblFilles.Text = NbFilles.ToString() + " filles";
+            lblGarcons.Text = NbGarcons.ToString() + @" garçons";
+            lblFilles.Text = NbFilles.ToString() + @" filles";
+            lblNbClasses.Text = NbDivisions.ToString() + @" classes";
+            lblNbOptions.Text = ListeOptions.Rows.Count + @" options";
+            lblNbGroupesOptions.Text = ListeMariagesOptions.Rows.Count + @" groupes d'options";
             NbElevesTotal = NbGarcons + NbFilles;
-            lblTotalEleves.Text = NbElevesTotal.ToString() + " élèves au total";
-            int moyenne = (NbElevesTotal / NbDivisions);
-            int reste = (NbElevesTotal % NbDivisions);
-            listeMariagesOptions.Columns[0].Width = -1;
-            listeEcoles.Columns[0].Width = -1;
-            listeOptions.Columns[0].Width = -1;
+            lblTotalEleves.Text = NbElevesTotal.ToString() + @" élèves au total";
+            MoyenneElevesClasse = (NbElevesTotal / NbDivisions);
+            Reste = (NbElevesTotal % NbDivisions);
+            ListeMariagesOptions.Columns[0].Width = -1;
+            ListeEcoles.Columns[0].Width = -1;
+            ListeOptions.Columns[0].Width = -1;
+
+            classe = 'A';
+            for (int i = 0; i < NbDivisions; i++)
+            {
+                _lblEffectifs.Add(new Label());
+                _lblEffectifs[i].Name = "lblEffectif_" + i;
+                _lblEffectifs[i].Text = Division + classe;
+                _lblEffectifs[i].Location = new System.Drawing.Point(20, y);
+                grpEffectifs.Controls.Add(_lblEffectifs[i]);
+
+                _txbEffectifs.Add(new System.Windows.Forms.TextBox());
+                _txbEffectifs[i].Name = "txbEffectif_" + Division + classe;
+                _txbEffectifs[i].Width = 50;
+                _txbEffectifs[i].Location = new System.Drawing.Point(120, y);
+                grpEffectifs.Controls.Add(_txbEffectifs[i]);
+
+                _lblRemplirClasse.Add(new Label());
+                _lblRemplirClasse[i].Name = "lblRemplir_" + Division + classe;
+                _lblRemplirClasse[i].Text = @"0";
+                _lblRemplirClasse[i].Location = new System.Drawing.Point(180, y);
+                grpEffectifs.Controls.Add(_lblRemplirClasse[i]);
+                y = y + 30;
+
+                if (Reste > 0)
+                {
+                    MoyenneElevesClasseEtReste = MoyenneElevesClasse + 1;
+                    _txbEffectifs[i].Text = MoyenneElevesClasseEtReste.ToString();
+                    Reste = Reste - 1;
+                }
+                else
+                {
+                    _txbEffectifs[i].Text = MoyenneElevesClasse.ToString();
+                }
+
+                classe++;
+            }
+
+            int nbOptions = ListeOptions.Rows.Count - 1;
+
+            for (int i = 0; i < nbOptions; i++)
+            {
+                _lblOptions.Add(new Label());
+                _lblOptions[i].Name = "lbl" + ListeOptions.Rows[i].Cells[0].Value;
+                _lblOptions[i].Text = ListeOptions.Rows[i].Cells[0].Value.ToString();
+                _lblOptions[i].Location = new System.Drawing.Point(7, y1);
+                grpOptions.Controls.Add(_lblOptions[i]);
+
+                _lblNbOptions.Add(new Label());
+                _lblNbOptions[i].Name = "lblNb" + ListeOptions.Rows[i].Cells[0].Value;
+                _lblNbOptions[i].Text = ListeOptions.Rows[i].Cells[1].Value.ToString();
+                _lblNbOptions[i].Location = new System.Drawing.Point(150, y1);
+                grpOptions.Controls.Add(_lblNbOptions[i]);
+                y1 = y1 + 30;
+            }
+
+            int nbMariagesOptions = ListeMariagesOptions.Rows.Count - 1;
+
+            for (int i = 0; i < nbMariagesOptions; i++)
+            {
+                _lblMariagesOptions.Add(new Label());
+                _lblMariagesOptions[i].Name = "lblOption" + ListeMariagesOptions.Rows[i].Cells[0].Value;
+                _lblMariagesOptions[i].AutoSize = true;
+                _lblMariagesOptions[i].Text = ListeMariagesOptions.Rows[i].Cells[0].Value.ToString();
+                _lblMariagesOptions[i].Location = new System.Drawing.Point(7, y2);
+                grpMariagesOptions.Controls.Add(_lblMariagesOptions[i]);
+
+                _lblNbMariagesOptions.Add(new Label());
+                _lblNbMariagesOptions[i].Name = "lblNb" + ListeMariagesOptions.Rows[i].Cells[0].Value;
+                _lblNbMariagesOptions[i].Text = ListeMariagesOptions.Rows[i].Cells[1].Value.ToString();
+                _lblNbMariagesOptions[i].Location = new System.Drawing.Point(300, y2);
+                grpMariagesOptions.Controls.Add(_lblNbMariagesOptions[i]);
+                y2 = y2 + 30;
+            }
+
+            classe = 'A';
+            for (int i = 0; i < NbDivisions; i++)
+            {
+                _lblClassesMariagesOptions.Add(new Label());
+                _lblClassesMariagesOptions[i].Name = "lblClasse" + Division + classe;
+                _lblClassesMariagesOptions[i].AutoSize = true;
+                _lblClassesMariagesOptions[i].Text = Division + classe;
+                _lblClassesMariagesOptions[i].Location = new System.Drawing.Point(x1, 40);
+                grpMariagesOptions.Controls.Add(_lblClassesMariagesOptions[i]);
+                classe++;
+                x1 = x1 + 50;
+            }
+
+            int p = 0;
+            int y5 = 80;
+            foreach (Control labelOption in grpMariagesOptions.Controls)
+            {
+                if (labelOption is Label)
+                {
+                    if (labelOption.Name.Contains("lblOption"))
+                    {
+                        int x5 = 403;
+                        foreach (Control labelClasse in grpMariagesOptions.Controls)
+                        {
+                            if (labelClasse is Label)
+                            {
+                                if (labelClasse.Name.Contains("lblClasse"))
+                                {
+                                    _cbxMariagesOptions.Add(new System.Windows.Forms.CheckBox());
+                                    _cbxMariagesOptions[p].Name = labelOption.Text + "_" + labelClasse.Text;
+                                    _cbxMariagesOptions[p].AutoSize = true;
+                                    _cbxMariagesOptions[p].Text = null;
+                                    _cbxMariagesOptions[p].Location = new System.Drawing.Point(x5, y5);
+                                    _cbxMariagesOptions[p].CheckStateChanged += Classe_Cochee;
+                                    grpMariagesOptions.Controls.Add(_cbxMariagesOptions[p]);
+                                    x5 = x5 + 50;
+                                    p++;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                y5 = y5 + 15;
+            }
+
+            VerifierCasesCochables();
+        }
+
+        private void Classe_Cochee(object sender, EventArgs e)
+        {
+            System.Windows.Forms.CheckBox chbxOptionClasse = (System.Windows.Forms.CheckBox)sender;
+            string option = chbxOptionClasse.Name.Before("_");
+            string classe = chbxOptionClasse.Name.After("_");
+            string nbOptionGrpOptions;
+            int effectifADistribuer = 0;
+
+            if (chbxOptionClasse.Checked)
+            {
+                #region Effectifs groupe mariages options
+
+                foreach (Control lblMariagesOption in grpMariagesOptions.Controls)
+                {
+                    if ((lblMariagesOption is Label) && (lblMariagesOption.Name.Contains("lblNb")))
+                    {
+                        // ReSharper disable once PossibleNullReferenceException
+                        int index = ListeBilan.Columns[classe].Index;
+                        if (chbxOptionClasse.Name.Before("_") == lblMariagesOption.Name.After("lblNb"))
+                        {
+                            if (Int16.Parse(lblMariagesOption.Text) > MoyenneElevesClasse)
+                            {
+                                chbxOptionClasse.Tag = MoyenneElevesClasse;
+
+                                if (cbxNbAjoutEleves.SelectedIndex != 0)
+                                {
+                                    if ((Int16.Parse(cbxNbAjoutEleves.Text) <
+                                         Int16.Parse(lblMariagesOption.Text)))
+                                    {
+                                        chbxOptionClasse.Tag = Int16.Parse(cbxNbAjoutEleves.Text);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (cbxNbAjoutEleves.SelectedIndex != 0)
+                                {
+                                    if ((Int16.Parse(cbxNbAjoutEleves.Text) <
+                                         Int16.Parse(lblMariagesOption.Text)))
+                                    {
+                                        chbxOptionClasse.Tag = Int16.Parse(cbxNbAjoutEleves.Text);
+                                    }
+                                    else
+                                    {
+                                        chbxOptionClasse.Tag = Int16.Parse(lblMariagesOption.Text);
+                                    }
+                                }
+                                else
+                                {
+                                    chbxOptionClasse.Tag = Int16.Parse(lblMariagesOption.Text);
+                                }
+                            }
+
+                            lblMariagesOption.Text = (Int16.Parse(lblMariagesOption.Text) - Int16.Parse(chbxOptionClasse.Tag.ToString())).ToString();
+                            if (Int16.Parse(lblMariagesOption.Text) > 0)
+                            {
+                                lblMariagesOption.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+                                lblMariagesOption.ForeColor = Color.Black;
+                            }
+                            else
+                            {
+                                lblMariagesOption.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold);
+                                lblMariagesOption.ForeColor = Color.Red;
+                            }
+
+                            #endregion Effectifs groupe mariages options
+
+                            #region Ajout tableau bilan
+
+                            foreach (DataGridViewRow ligne in ListeBilan.Rows)
+                            {
+                                if (ligne.Cells[index].Value == null)
+                                {
+                                    ligne.Cells[index].Value =
+                                        chbxOptionClasse.Tag + " " + chbxOptionClasse.Name.Before("_");
+                                    break;
+                                }
+                            }
+
+                            #endregion Ajout tableau bilan
+
+                            cbxNbAjoutEleves.SelectedIndex = 0;
+                        }
+                    }
+                }
+
+                #region Effectifs groupe options
+
+                foreach (Control lblOption in grpOptions.Controls)
+                {
+                    if ((lblOption is Label) && (lblOption.Name.Contains("lblNb")))
+                    {
+                        nbOptionGrpOptions = lblOption.Name.After("lblNb");
+                        if (chbxOptionClasse.Name.Contains(nbOptionGrpOptions))
+                        {
+                            lblOption.Text = (Int16.Parse(lblOption.Text) - Int16.Parse(chbxOptionClasse.Tag.ToString())).ToString();
+                            if (Int16.Parse(lblOption.Text) > 0)
+                            {
+                                lblOption.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+                                lblOption.ForeColor = Color.Black;
+                            }
+                            else
+                            {
+                                lblOption.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold);
+                                lblOption.ForeColor = Color.Red;
+                            }
+                        }
+                    }
+                }
+
+                #endregion Effectifs groupe options
+
+                #region Effectifs groupe effectifs
+
+                foreach (Control lblEffectif in grpEffectifs.Controls)
+                {
+                    int effectif = 0;
+                    int effectifMax = 0;
+                    string nomClasse = lblEffectif.Name.After("_");
+
+                    if ((lblEffectif is Label) && (chbxOptionClasse.Name.After("_") == lblEffectif.Name.After("_")))
+                    {
+                        {
+                            lblEffectif.Text = (Int16.Parse(lblEffectif.Text) + Int16.Parse(chbxOptionClasse.Tag.ToString())).ToString();
+                            effectifADistribuer = Int16.Parse(chbxOptionClasse.Tag.ToString());
+                            effectif = Int16.Parse(lblEffectif.Text);
+                        }
+                    }
+
+                    foreach (Control txbEffectif in grpEffectifs.Controls)
+                    {
+                        if ((txbEffectif is System.Windows.Forms.TextBox) && (lblEffectif.Name.Contains(nomClasse)))
+                        {
+                            {
+                                effectifMax = Int16.Parse(txbEffectif.Text);
+                            }
+                        }
+
+                        if ((effectif == effectifMax) && (lblEffectif is Label) && (lblEffectif.Name.Contains(nomClasse)))
+                        {
+                            lblEffectif.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold);
+                            lblEffectif.ForeColor = Color.Red;
+                        }
+                        if ((effectif < effectifMax) && (lblEffectif is Label) && (lblEffectif.Name.Contains(nomClasse)))
+                        {
+                            lblEffectif.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+                            lblEffectif.ForeColor = Color.Black;
+                        }
+                    }
+                }
+
+                #endregion Effectifs groupe effectifs
+
+                ConstituerClassesAjouter(option, classe, effectifADistribuer);
+            }
+
+            if (!chbxOptionClasse.Checked)
+            {
+                #region Effectifs groupe mariages options
+
+                foreach (Control lblMariagesOption in grpMariagesOptions.Controls)
+                {
+                    if ((lblMariagesOption is Label) && (lblMariagesOption.Name.Contains("lblNb")))
+                    {
+                        if (chbxOptionClasse.Name.Before("_") == lblMariagesOption.Name.After("lblNb"))
+                        {
+                            lblMariagesOption.Text = (Int16.Parse(lblMariagesOption.Text) + Int16.Parse(chbxOptionClasse.Tag.ToString())).ToString();
+                            if (Int16.Parse(lblMariagesOption.Text) > 0)
+                            {
+                                lblMariagesOption.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+                                lblMariagesOption.ForeColor = Color.Black;
+                            }
+                            else
+                            {
+                                lblMariagesOption.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold);
+                                lblMariagesOption.ForeColor = Color.Red;
+                            }
+                        }
+                    }
+                }
+
+                #endregion Effectifs groupe mariages options
+
+                #region Effectifs groupe options
+
+                foreach (Control lblOption in grpOptions.Controls)
+                {
+                    if ((lblOption is Label) && (lblOption.Name.Contains("lblNb")))
+                    {
+                        nbOptionGrpOptions = lblOption.Name.After("lblNb");
+                        if (chbxOptionClasse.Name.Contains(nbOptionGrpOptions))
+                        {
+                            lblOption.Text = (Int16.Parse(lblOption.Text) + Int16.Parse(chbxOptionClasse.Tag.ToString())).ToString();
+                            if (Int16.Parse(lblOption.Text) > 0)
+                            {
+                                lblOption.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+                                lblOption.ForeColor = Color.Black;
+                            }
+                            else
+                            {
+                                lblOption.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold);
+                                lblOption.ForeColor = Color.Red;
+                            }
+                        }
+                    }
+                }
+
+                #endregion Effectifs groupe options
+
+                #region Effectifs groupe effectifs
+
+                foreach (Control lblEffectif in grpEffectifs.Controls)
+                {
+                    int effectif = 0;
+                    int effectifMax = 0;
+                    string nomClasse = lblEffectif.Name.After("_");
+
+                    if ((lblEffectif is Label) && (chbxOptionClasse.Name.After("_") == lblEffectif.Name.After("_")))
+                    {
+                        {
+                            lblEffectif.Text = (Int16.Parse(lblEffectif.Text) - Int16.Parse(chbxOptionClasse.Tag.ToString())).ToString();
+                            effectif = Int16.Parse(lblEffectif.Text);
+                        }
+                    }
+
+                    foreach (Control txbEffectif in grpEffectifs.Controls)
+                    {
+                        if ((txbEffectif is System.Windows.Forms.TextBox) && (lblEffectif.Name.Contains(nomClasse)))
+                        {
+                            {
+                                effectifMax = Int16.Parse(txbEffectif.Text);
+                            }
+                        }
+
+                        if ((effectif == effectifMax) && (lblEffectif is Label) && (lblEffectif.Name.Contains(nomClasse)))
+                        {
+                            lblEffectif.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold);
+                            lblEffectif.ForeColor = Color.Red;
+                        }
+                        if ((effectif < effectifMax) && (lblEffectif is Label) && (lblEffectif.Name.Contains(nomClasse)))
+                        {
+                            lblEffectif.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+                            lblEffectif.ForeColor = Color.Black;
+                        }
+                    }
+                }
+
+                #endregion Effectifs groupe effectifs
+
+                #region Ajout tableau bilan
+
+                int index = ListeBilan.Columns[classe].Index;
+                foreach (DataGridViewRow ligne in ListeBilan.Rows)
+                {
+                    if (ligne.Cells[index].Value != null)
+                    {
+                        if (ligne.Cells[index].Value.ToString() ==
+                            chbxOptionClasse.Tag + " " + chbxOptionClasse.Name.Before("_"))
+                        {
+                            ligne.Cells[index].Value = null;
+                            break;
+                        }
+                    }
+                }
+
+                for (int i = 0; i <= ListeBilan.Rows.Count - 2; i++)
+                {
+                    if (ListeBilan.Rows[i].Cells[index].Value == null)
+                    {
+                        {
+                            ListeBilan.Rows[i].Cells[index].Value = ListeBilan.Rows[i + 1].Cells[index].Value;
+                            ListeBilan.Rows[i + 1].Cells[index].Value = null;
+                        }
+                    }
+                }
+
+                #endregion Ajout tableau bilan
+
+                ConstituerClassesRetirer(option, classe);
+            }
+
+            VerifierCasesCochables();
         }
 
         private void TuerProcessus(string processus)
@@ -306,34 +773,217 @@ namespace Constitution_des_classes
                     }
                 }
             }
-            //return false;
         }
 
-        private void btn_Constituer_Classes_Click(object sender, EventArgs e)
+        private void VerifierCasesCochables()
         {
-            if (listeMariagesOptions.Rows[0].Cells[0].Value.Equals("ESPAGNOL LV2"))
+            int effectifEnCours = 0;
+            int effectifMaxi = 0;
+            int effectifRestant = 0;
+
+            foreach (Control chbxMariagesOption in grpMariagesOptions.Controls)
             {
-                //for (int i = 0; i < (listeMariagesOptions.Rows[0].Cells[2] as DataGridViewComboBoxCell).Items.Count; i++)
-                for (int i = 0; i < 29; i++)
+                if ((chbxMariagesOption is System.Windows.Forms.CheckBox))
                 {
-                    string nomEleve = ((listeMariagesOptions.Rows[0].Cells[2] as DataGridViewComboBoxCell).Items[i].ToString());
-                    string option1 = (listeMariagesOptions.Rows[0].Cells[0].Value.ToString());
-                    string sexe = "";
-                    foreach (DataGridViewRow row in listeEleves.Rows)
+                    string nomOption = chbxMariagesOption.Name.Before("_");
+                    string nomClasse = chbxMariagesOption.Name.After("_");
+                    string nomLabelEffectifRestant = "lblNb" + nomOption;
+
+                    foreach (Control lblRestant in grpMariagesOptions.Controls)
                     {
-                        if (row.Cells[2].Value.ToString().Equals(nomEleve))
+                        if ((lblRestant is Label) && (lblRestant.Name == nomLabelEffectifRestant))
                         {
-                            sexe = row.Cells[3].Value.ToString();
-                            break;
+                            effectifRestant = Int16.Parse(lblRestant.Text);
                         }
                     }
-                    DataGridView liste = (DataGridView)this.Controls.Find("liste4E", true)[0];
-                    liste.Rows.Add(nomEleve,sexe, option1);
-                    (listeMariagesOptions.Rows[0].Cells[2] as DataGridViewComboBoxCell).Items.Remove((listeMariagesOptions.Rows[0].Cells[2] as DataGridViewComboBoxCell).Items[i]);
-                    NbMariagesOptions = Int16.Parse(listeMariagesOptions.Rows[0].Cells[1].Value.ToString()) - 1;
-                    listeMariagesOptions.Rows[0].Cells[1].Value = NbMariagesOptions.ToString();
+
+                    foreach (Control lblEffectifs in grpEffectifs.Controls)
+                    {
+                        if ((lblEffectifs is Label) && (lblEffectifs.Name == "lblRemplir_" + nomClasse))
+                        {
+                            effectifEnCours = Int16.Parse(lblEffectifs.Text);
+                        }
+                        if ((lblEffectifs is System.Windows.Forms.TextBox) && (lblEffectifs.Name.Contains(nomClasse)))
+                        {
+                            effectifMaxi = Int16.Parse(lblEffectifs.Text);
+                        }
+
+                        if (effectifEnCours == effectifMaxi)
+                        {
+                            if (((System.Windows.Forms.CheckBox)chbxMariagesOption)
+                                .Checked ==
+                                false)
+                            {
+                                chbxMariagesOption.Enabled = false;
+                            }
+                            else
+                            {
+                                chbxMariagesOption.Enabled = true;
+                            }
+                        }
+                    }
+
+                    if (cbxNbAjoutEleves.Text == @"Maxi")
+                    {
+                        if ((effectifEnCours + effectifRestant > effectifMaxi) && (((System.Windows.Forms.CheckBox)chbxMariagesOption)
+                            .Checked ==
+                            false))
+                        {
+                            chbxMariagesOption.Enabled = false;
+                        }
+                        else
+                        {
+                            chbxMariagesOption.Enabled = true;
+                        }
+                    }
+                    if (cbxNbAjoutEleves.Text != @"Maxi")
+                    {
+                        if ((effectifEnCours + Int16.Parse(cbxNbAjoutEleves.Text) > effectifMaxi) && (((System.Windows.Forms.CheckBox)chbxMariagesOption)
+                            .Checked ==
+                            false))
+                        {
+                            chbxMariagesOption.Enabled = false;
+                        }
+                        else
+                        {
+                            chbxMariagesOption.Enabled = true;
+                        }
+                    }
+
+                    if (effectifRestant == 0)
+                    {
+                        if (((System.Windows.Forms.CheckBox)chbxMariagesOption)
+                            .Checked ==
+                            false)
+                        {
+                            chbxMariagesOption.Enabled = false;
+                        }
+                        else
+                        {
+                            chbxMariagesOption.Enabled = true;
+                        }
+                    }
                 }
             }
+        }
+
+        private void ConstituerClassesAjouter(string option, string classe, int nombreEleves)
+        {
+            foreach (DataGridViewRow ligne in ListeMariagesOptions.Rows)
+            {
+                if (ligne.Cells[0].Value != null)
+                {
+                    if (ligne.Cells[0].Value.ToString() == option)
+                    {
+                        DataGridView liste = (DataGridView)Controls.Find("liste" + classe, true)[0]; // ex : "liste4E"
+
+                        {
+                            for (int i = 0; i < nombreEleves; i++)
+                            {
+                                string nomEleveMariageOptions =
+                                    ((ligne.Cells[2] as DataGridViewComboBoxCell)?.Items[i]
+                                        .ToString());
+                                string mariageOptions = (ligne.Cells[0].Value.ToString());
+                                string sexe = "";
+                                foreach (DataGridViewRow row in ListeEleves.Rows)
+                                {
+                                    if (row.Cells[2].Value.ToString().Equals(nomEleveMariageOptions))
+                                    {
+                                        sexe = row.Cells[3].Value.ToString();
+                                        break;
+                                    }
+                                }
+
+                                liste.Rows.Add(nomEleveMariageOptions, sexe, mariageOptions);
+                            }
+                            for (int i = nombreEleves - 1; i >= 0; i--)
+                            {
+                                string nomEleveMariageOptions =
+                                    ((ligne.Cells[2] as DataGridViewComboBoxCell)?.Items[i]
+                                        .ToString());
+                                foreach (DataGridViewRow row in ListeEleves.Rows)
+                                {
+                                    if (row.Cells[2].Value.ToString().Equals(nomEleveMariageOptions))
+                                    {
+                                        break;
+                                    }
+                                }
+
+                                (ligne.Cells[2] as DataGridViewComboBoxCell)?.Items.Remove(
+                                    (ligne.Cells[2] as DataGridViewComboBoxCell)?.Items[i] ??
+                                    throw new InvalidOperationException());
+
+                                ligne.Cells[1].Value = (ligne.Cells[2] as DataGridViewComboBoxCell)?.Items.Count;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ConstituerClassesRetirer(string option, string classe)
+        {
+            DataGridView liste = (DataGridView)Controls.Find("liste" + classe, true)[0]; // ex : "liste4E"
+
+            {
+                int nombreLignes = liste.Rows.Count;
+                for (int i = nombreLignes - 2; i >= 0; i--)
+                {
+                    {
+                        if (liste.Rows[i].Cells[2].Value.ToString() == option)
+                        {
+                            foreach (DataGridViewRow ligne in ListeMariagesOptions.Rows)
+                            {
+                                if (ligne.Cells[0].Value != null)
+                                {
+                                    if (ligne.Cells[0].Value.ToString() == option)
+                                    {
+                                        (ligne.Cells[2] as DataGridViewComboBoxCell)?.Items.Add(liste.Rows[i].Cells[0]
+                                            .Value.ToString());
+                                        ligne.Cells[1].Value = (ligne.Cells[2] as DataGridViewComboBoxCell)?.Items
+                                            .Count;
+                                    }
+                                }
+                            }
+
+                            foreach (DataGridViewRow ligne in ListeOptions.Rows)
+                            {
+                                if (ligne.Cells[0].Value != null)
+                                {
+                                    if (ligne.Cells[0].Value.ToString() == option)
+                                    {
+                                        (ligne.Cells[2] as DataGridViewComboBoxCell)?.Items.Add(liste.Rows[i].Cells[0]
+                                            .Value.ToString());
+                                    }
+                                }
+                            }
+
+                            liste.Rows.Remove(liste.Rows[i]);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void cbxNbAjoutEleves_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            VerifierCasesCochables();
+        }
+
+        private void RestartProgram()
+        {
+            // Get file path of current process 
+            var filePath = Assembly.GetExecutingAssembly().Location;
+            //var filePath = Application.ExecutablePath;  // for WinForms
+
+            // Start program
+            Process.Start(filePath);
+
+            // For Windows Forms app
+            System.Windows.Forms.Application.Exit();
+
+            // For all Windows application but typically for Console app.
+            //Environment.Exit(0);
         }
     }
 
@@ -344,7 +994,64 @@ namespace Constitution_des_classes
             Type dgvType = dgv.GetType();
             PropertyInfo pi = dgvType.GetProperty("DoubleBuffered",
                 BindingFlags.Instance | BindingFlags.NonPublic);
-            pi.SetValue(dgv, setting, null);
+            if (pi != null) pi.SetValue(dgv, setting, null);
+        }
+    }
+
+    internal static class SubstringExtensions
+    {
+        /// <summary>
+        /// Get string value between [first] a and [last] b.
+        /// </summary>
+        public static string Between(this string value, string a, string b)
+        {
+            int posA = value.IndexOf(a, StringComparison.Ordinal);
+            int posB = value.LastIndexOf(b, StringComparison.Ordinal);
+            if (posA == -1)
+            {
+                return "";
+            }
+            if (posB == -1)
+            {
+                return "";
+            }
+            int adjustedPosA = posA + a.Length;
+            if (adjustedPosA >= posB)
+            {
+                return "";
+            }
+            return value.Substring(adjustedPosA, posB - adjustedPosA);
+        }
+
+        /// <summary>
+        /// Get string value after [first] a.
+        /// </summary>
+        public static string Before(this string value, string a)
+        {
+            int posA = value.IndexOf(a, StringComparison.Ordinal);
+            if (posA == -1)
+            {
+                return "";
+            }
+            return value.Substring(0, posA);
+        }
+
+        /// <summary>
+        /// Get string value after [last] a.
+        /// </summary>
+        public static string After(this string value, string a)
+        {
+            int posA = value.LastIndexOf(a, StringComparison.Ordinal);
+            if (posA == -1)
+            {
+                return "";
+            }
+            int adjustedPosA = posA + a.Length;
+            if (adjustedPosA >= value.Length)
+            {
+                return "";
+            }
+            return value.Substring(adjustedPosA);
         }
     }
 }
