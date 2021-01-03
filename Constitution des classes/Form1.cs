@@ -3,9 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using Xceed.Document.NET;
+using Xceed.Words.NET;
+using Border = Xceed.Document.NET.Border;
+using BorderStyle = Xceed.Document.NET.BorderStyle;
 using Label = System.Windows.Forms.Label;
+using Range = Microsoft.Office.Interop.Excel.Range;
+using Table = Xceed.Document.NET.Table;
 
 namespace Constitution_des_classes
 {
@@ -47,6 +54,8 @@ namespace Constitution_des_classes
         private readonly List<Label> _lblNbMariagesOptions = new List<Label>();
         private readonly List<Label> _lblClassesMariagesOptions = new List<Label>();
         private readonly List<System.Windows.Forms.CheckBox> _cbxMariagesOptions = new List<System.Windows.Forms.CheckBox>();
+        public DocX Doc = DocX.Create(@"D:\test.docx");
+        public Table Tableau;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -202,6 +211,13 @@ namespace Constitution_des_classes
             DataGridViewComboBoxColumn colonneComboListeOptions = new DataGridViewComboBoxColumn();
             ListeOptions.Columns.Add(colonneComboListeOptions);
             colonneComboListeOptions.HeaderText = @"Liste des Elèves           ";
+
+            Doc.PageLayout.Orientation = Xceed.Document.NET.Orientation.Landscape;
+            Tableau = Doc.AddTable(2, NbDivisions);
+            Tableau.Alignment = Alignment.center;
+            Tableau.Design = TableDesign.Custom;
+            Tableau.AutoFit = AutoFit.Contents;
+            
 
             for (int i = 1; i <= rowCount; i++)
             {
@@ -366,6 +382,11 @@ namespace Constitution_des_classes
                     _txbEffectifs[i].Text = MoyenneElevesClasse.ToString();
                 }
 
+                Tableau.Rows[0].Cells[i].Paragraphs.First().Append(Division + classe);
+                Tableau.Rows[0].Cells[i].Paragraphs.First().Color(Color.Black);
+                Tableau.Rows[0].Cells[i].Paragraphs.First().Bold();
+                Tableau.Rows[0].Cells[i].FillColor = (Color.LightBlue);
+                Tableau.Rows[0].Cells[i].Paragraphs.First().Alignment = Alignment.center;
                 classe++;
             }
 
@@ -983,6 +1004,112 @@ namespace Constitution_des_classes
 
             // For all Windows application but typically for Console app.
             //Environment.Exit(0);
+        }
+
+        private void btnWord_Click(object sender, EventArgs e)
+        {
+            //doc.PageLayout.Orientation = Xceed.Document.NET.Orientation.Landscape;
+            ////doc.InsertParagraph("coucou");
+            ////Create Table with 2 rows and 4 columns.
+            ////Table t = doc.AddTable(2, 4);
+            //Tableau.Alignment = Alignment.center;
+            //Tableau.Design = TableDesign.MediumList1Accent3;
+            //Tableau.AutoFit = AutoFit.Contents;
+            //////Fill cells by adding text.
+            ////t.Rows[0].Cells[1].SetBorder(TableCellBorderType.Left,new Xceed.Document.NET.Border(Xceed.Document.NET.BorderStyle.Tcbs_single, BorderSize.one, 1, Color.Blue));
+            ////t.Rows[1].Cells[1].SetBorder(TableCellBorderType.Left,new Xceed.Document.NET.Border(Xceed.Document.NET.BorderStyle.Tcbs_single, BorderSize.one, 1, Color.Blue));
+            ////t.Rows[0].Cells[0].Paragraphs.First().Append("AA" + "\n" + "bb");
+            ////t.Rows[0].Cells[1].Paragraphs.First().Append("BB");
+            ////t.Rows[0].Cells[2].Paragraphs.First().Append("CC");
+            ////t.Rows[0].Cells[3].Paragraphs.First().Append("DD");
+            ////t.Rows[1].Cells[0].Paragraphs.First().Append("EE");
+            ////t.Rows[1].Cells[1].Paragraphs.First().Append("FF");
+            ////t.Rows[1].Cells[2].Paragraphs.First().Append("GG");
+            ////t.Rows[1].Cells[3].Paragraphs.First().Append("HH");
+
+            ////t.InsertRow();
+            ////t.InsertRow();
+            ////t.InsertRow();
+            ////t.InsertRow();
+
+            
+            {
+                foreach (DataGridViewColumn colonneBilan in ListeBilan.Columns)
+                {
+                    string classeBilan = colonneBilan.HeaderText;
+                    int nbLignes = 0;
+
+                    foreach (DataGridViewRow ligneBilan in ListeBilan.Rows)
+                    {
+                        if (ligneBilan.Cells[colonneBilan.Index].Value != null)
+                        {
+                            Tableau.InsertRow();
+                            nbLignes++;
+
+                            Tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Append(ligneBilan.Cells[colonneBilan.Index].Value.ToString());
+                            Tableau.Rows[nbLignes].Cells[colonneBilan.Index].FillColor = (Color.LightYellow);
+                            Tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Bold();
+                            Tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Color(Color.Red);
+                            Border b = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Gray);
+                            Tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Left, b);
+                            Tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Right, b);
+
+                            DataGridView liste = (DataGridView)Controls.Find("liste" + classeBilan, true)[0]; // ex : "liste4E"
+
+                            foreach (DataGridViewRow ligne in liste.Rows)
+                            {
+                                if (ligne.Cells[2].Value != null)
+                                {
+                                    int supr = ligneBilan.Cells[colonneBilan.Index].Value.ToString().IndexOf(" ", StringComparison.Ordinal);
+                                    string option = ligneBilan.Cells[colonneBilan.Index].Value.ToString()
+                                        .Remove(0, supr + 1);
+                                    if (ligne.Cells[2].Value.ToString() == option)
+                                    {
+                                        Tableau.InsertRow();
+                                        nbLignes++;
+                                        Tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs
+                                            .First().Append(ligne.Cells[0].Value.ToString());
+                                        Tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Top,new Xceed.Document.NET.Border(Xceed.Document.NET.BorderStyle.Tcbs_none, BorderSize.one, 1, Color.Red));
+                                        Tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Italic();
+                                        //b = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Gray);
+                                        Tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Left, b);
+                                        Tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Right, b);
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+
+                }
+
+                
+                for (int i = Tableau.Rows.Count-1; i>=0; i-- )
+                {
+                    int compteur = 0;
+                    for (int j = 0; j < NbDivisions; j++)
+                    {
+                        if (Tableau.Rows[i].Cells[j].Paragraphs[0].Text == "")
+                        {
+                            //if (Tableau.Rows[i].Cells[j].Paragraphs.First().Text == "")
+                            {
+                                compteur++;
+
+                                if (compteur == NbDivisions)
+                                {
+                                    Tableau.Rows[i].Remove();
+                                    compteur = 0;
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+            }
+
+            Doc.InsertTable(Tableau);
+            Doc.Save();
+            Process.Start("WINWORD.EXE", @"D:\test.docx");
         }
     }
 

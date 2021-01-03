@@ -50,6 +50,7 @@
             this.grpMariagesOptions = new System.Windows.Forms.GroupBox();
             this.grpOptions = new System.Windows.Forms.GroupBox();
             this.grpEffectifs = new System.Windows.Forms.GroupBox();
+            this.btnWord = new System.Windows.Forms.Button();
             this.tabPrincipal.SuspendLayout();
             this.Configuration.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -132,6 +133,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.LightGray;
+            this.panel1.Controls.Add(this.btnWord);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.btnParcourir);
             this.panel1.Controls.Add(this.lblClasses);
@@ -320,6 +322,17 @@
             this.grpEffectifs.TabStop = false;
             this.grpEffectifs.Text = "Effectifs classes";
             // 
+            // btnWord
+            // 
+            this.btnWord.Location = new System.Drawing.Point(608, 161);
+            this.btnWord.Name = "btnWord";
+            this.btnWord.Size = new System.Drawing.Size(75, 23);
+            this.btnWord.TabIndex = 6;
+            this.btnWord.Text = "Word";
+            this.btnWord.UseMnemonic = false;
+            this.btnWord.UseVisualStyleBackColor = true;
+            this.btnWord.Click += new System.EventHandler(this.btnWord_Click);
+            // 
             // Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -364,6 +377,7 @@
         private System.Windows.Forms.Label lblNbClasses;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnWord;
     }
 }
 
