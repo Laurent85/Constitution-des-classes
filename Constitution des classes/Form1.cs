@@ -267,7 +267,7 @@ namespace Constitution_des_classes
                                 NbOptions = Int16.Parse(ListeOptions.Rows[NumLigneExiste].Cells[1].Value.ToString()) +
                                             1;
                                 ListeOptions.Rows[NumLigneExiste].Cells[1].Value = NbOptions.ToString();
-                                (ListeOptions.Rows[NumLigneExiste].Cells[2] as DataGridViewComboBoxCell).Items.Add(
+                                (ListeOptions.Rows[NumLigneExiste].Cells[2] as DataGridViewComboBoxCell)?.Items.Add(
                                     ListeEleves.Rows[i - 1].Cells[2].Value);
                             }
 
@@ -311,7 +311,7 @@ namespace Constitution_des_classes
                                     Int16.Parse(ListeMariagesOptions.Rows[NumLigneExiste].Cells[1].Value.ToString()) +
                                     1;
                                 ListeMariagesOptions.Rows[NumLigneExiste].Cells[1].Value = NbMariagesOptions.ToString();
-                                (ListeMariagesOptions.Rows[NumLigneExiste].Cells[2] as DataGridViewComboBoxCell).Items
+                                (ListeMariagesOptions.Rows[NumLigneExiste].Cells[2] as DataGridViewComboBoxCell)?.Items
                                     .Add(ListeEleves.Rows[i - 1].Cells[2].Value);
                             }
 
@@ -1077,7 +1077,7 @@ namespace Constitution_des_classes
                                         nbLignes++;
                                         Tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs
                                             .First().Append(ligne.Cells[0].Value.ToString());
-                                        Tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Top,new Xceed.Document.NET.Border(Xceed.Document.NET.BorderStyle.Tcbs_none, BorderSize.one, 1, Color.Red));
+                                        Tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Top,new Border(BorderStyle.Tcbs_none, BorderSize.one, 1, Color.Red));
                                         Tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Italic();
                                         //b = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Gray);
                                         Tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Left, b);
