@@ -54,7 +54,7 @@ namespace Constitution_des_classes
         private readonly List<Label> _lblNbMariagesOptions = new List<Label>();
         private readonly List<Label> _lblClassesMariagesOptions = new List<Label>();
         private readonly List<System.Windows.Forms.CheckBox> _cbxMariagesOptions = new List<System.Windows.Forms.CheckBox>();
-        public DocX Doc = DocX.Create(@"D:\test.docx");
+        public DocX Doc = DocX.Create(@"F:\test.docx");
         public Table Tableau;
 
         private void Form1_Load(object sender, EventArgs e)
@@ -135,6 +135,21 @@ namespace Constitution_des_classes
                 {
                     cell.Value = @"ANGLAIS EURO";
                 }
+
+                if (cell.Text.Contains("LCA"))
+                {
+                    cell.Value = @"LATIN";
+                }
+
+                if (cell.Text.Contains("ESPAGNOL"))
+                {
+                    cell.Value = @"ESPAGNOL";
+                }
+
+                if (cell.Text.Contains("ALLEMAND"))
+                {
+                    cell.Value = @"ALLEMAND";
+                }
             }
 
             Division = Range[5, 2].Text.Substring(0, 1);
@@ -211,13 +226,6 @@ namespace Constitution_des_classes
             DataGridViewComboBoxColumn colonneComboListeOptions = new DataGridViewComboBoxColumn();
             ListeOptions.Columns.Add(colonneComboListeOptions);
             colonneComboListeOptions.HeaderText = @"Liste des Elèves           ";
-
-            Doc.PageLayout.Orientation = Xceed.Document.NET.Orientation.Landscape;
-            Tableau = Doc.AddTable(2, NbDivisions);
-            Tableau.Alignment = Alignment.center;
-            Tableau.Design = TableDesign.Custom;
-            Tableau.AutoFit = AutoFit.Contents;
-            
 
             for (int i = 1; i <= rowCount; i++)
             {
@@ -1027,9 +1035,28 @@ namespace Constitution_des_classes
             ////t.InsertRow();
             ////t.InsertRow();
             ////t.InsertRow();
+            
+            Doc.PageLayout.Orientation = Xceed.Document.NET.Orientation.Landscape;
+            Doc.MarginBottom = 1;
+            Doc.MarginTop = 1;
+            Doc.MarginLeft = 1;
+            Doc.MarginRight = 1;
+            Tableau = Doc.AddTable(1, NbDivisions);
+            Tableau.Alignment = Alignment.center;
+            Tableau.Design = TableDesign.Custom;
+            Tableau.AutoFit = AutoFit.Contents;
+            
+
+            var title = Doc.InsertParagraph("Structure 2020-2021   -   Niveau 3ème");
+            title.FontSize(20).Font(new Xceed.Document.NET.Font("Calibri Light"));
+            title.Color(Color.BlueViolet);
+            title.Alignment = Alignment.center;
+            title.Highlight(Highlight.yellow);
+            Doc.InsertParagraph();
+            
 
             char classe = 'A';
-
+            Tableau.InsertRow();
             for (int i = 0; i < NbDivisions; i++)
             {
                 Tableau.Rows[0].Cells[i].Paragraphs.First().Append(Division + classe);
@@ -1037,6 +1064,28 @@ namespace Constitution_des_classes
                 Tableau.Rows[0].Cells[i].Paragraphs.First().Bold();
                 Tableau.Rows[0].Cells[i].FillColor = (Color.LightBlue);
                 Tableau.Rows[0].Cells[i].Paragraphs.First().Alignment = Alignment.center;
+                
+                DataGridView liste = (DataGridView)Controls.Find("liste" + Division + classe, true)[0]; // ex : "liste4E"
+                string options = "";
+                foreach (DataGridViewRow row in liste.Rows)
+                {
+                    if (row.Cells[2].Value != null)
+                    {
+                        string groupeOptions = "/" + row.Cells[2].Value.ToString();
+                        string[] authorInfo = groupeOptions.Split('/');
+
+                        foreach (string info in authorInfo)
+                        {
+                            if (!options.Contains(info))
+                            {
+                                options = options + info + "  ";
+                            }
+                        }
+
+                    }
+                }
+                //Tableau.Rows[0].Cells[i].Paragraphs.First().Append(Division + classe);
+                Tableau.Rows[1].Cells[i].Paragraphs.First().Append(options);
                 classe++;
             }
 
@@ -1045,7 +1094,7 @@ namespace Constitution_des_classes
                 foreach (DataGridViewColumn colonneBilan in ListeBilan.Columns)
                 {
                     string classeBilan = colonneBilan.HeaderText;
-                    int nbLignes = 0;
+                    int nbLignes = 1;
 
                     foreach (DataGridViewRow ligneBilan in ListeBilan.Rows)
                     {
@@ -1061,6 +1110,7 @@ namespace Constitution_des_classes
                             Border b = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Gray);
                             Tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Left, b);
                             Tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Right, b);
+                            Tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Alignment = Alignment.center;
 
                             DataGridView liste = (DataGridView)Controls.Find("liste" + classeBilan, true)[0]; // ex : "liste4E"
 
@@ -1117,7 +1167,7 @@ namespace Constitution_des_classes
 
             Doc.InsertTable(Tableau);
             Doc.Save();
-            Process.Start("WINWORD.EXE", @"D:\test.docx");
+            Process.Start("WINWORD.EXE", @"F:\test.docx");
         }
     }
 
