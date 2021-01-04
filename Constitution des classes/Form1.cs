@@ -382,11 +382,7 @@ namespace Constitution_des_classes
                     _txbEffectifs[i].Text = MoyenneElevesClasse.ToString();
                 }
 
-                Tableau.Rows[0].Cells[i].Paragraphs.First().Append(Division + classe);
-                Tableau.Rows[0].Cells[i].Paragraphs.First().Color(Color.Black);
-                Tableau.Rows[0].Cells[i].Paragraphs.First().Bold();
-                Tableau.Rows[0].Cells[i].FillColor = (Color.LightBlue);
-                Tableau.Rows[0].Cells[i].Paragraphs.First().Alignment = Alignment.center;
+                
                 classe++;
             }
 
@@ -1031,6 +1027,18 @@ namespace Constitution_des_classes
             ////t.InsertRow();
             ////t.InsertRow();
             ////t.InsertRow();
+
+            char classe = 'A';
+
+            for (int i = 0; i < NbDivisions; i++)
+            {
+                Tableau.Rows[0].Cells[i].Paragraphs.First().Append(Division + classe);
+                Tableau.Rows[0].Cells[i].Paragraphs.First().Color(Color.Black);
+                Tableau.Rows[0].Cells[i].Paragraphs.First().Bold();
+                Tableau.Rows[0].Cells[i].FillColor = (Color.LightBlue);
+                Tableau.Rows[0].Cells[i].Paragraphs.First().Alignment = Alignment.center;
+                classe++;
+            }
 
             
             {
