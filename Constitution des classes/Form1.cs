@@ -594,12 +594,13 @@ namespace Constitution_des_classes
                 foreach (Control lblEffectif in grpEffectifs.Controls)
                 {
                     int effectif = 0;
-                    if ((lblEffectif is Label) && (lblEffectif.Name.Contains("lblRemplir")))
+                    string nomClasse = lblEffectif.Name.After("_");
+                    if ((lblEffectif is Label) && (lblEffectif.Name.Contains(nomClasse)) && (lblEffectif.Name.Contains("lblRemplir")))
                     {
                         effectif = Int16.Parse(lblEffectif.Text);
                     }
 
-                    string nomClasse = lblEffectif.Name.After("_");
+
 
                     if ((lblEffectif is Label) && (chbxOptionClasse.Name.After("_") == lblEffectif.Name.After("_")))
                     {
@@ -612,7 +613,7 @@ namespace Constitution_des_classes
 
                     foreach (Control txbEffectif in grpEffectifs.Controls)
                     {
-                        if ((txbEffectif is System.Windows.Forms.TextBox) && (lblEffectif.Name.Contains(nomClasse)))
+                        if ((txbEffectif is System.Windows.Forms.TextBox) && (txbEffectif.Name.Contains(nomClasse)))
                         {
                             var effectifMax = 0;
                             {
@@ -697,12 +698,12 @@ namespace Constitution_des_classes
                 foreach (Control lblEffectif in grpEffectifs.Controls)
                 {
                     int effectif = 0;
-                    if ((lblEffectif is Label) && (lblEffectif.Name.Contains("lblRemplir")))
+                    string nomClasse = lblEffectif.Name.After("_");
+                    if ((lblEffectif is Label) && (lblEffectif.Name.Contains(nomClasse)) && (lblEffectif.Name.Contains("lblRemplir")))
                     {
                         effectif = Int16.Parse(lblEffectif.Text);
                     }
-                    int effectifMax = 0;
-                    string nomClasse = lblEffectif.Name.After("_");
+
 
                     if ((lblEffectif is Label) && (chbxOptionClasse.Name.After("_") == lblEffectif.Name.After("_")))
                     {
@@ -714,8 +715,9 @@ namespace Constitution_des_classes
 
                     foreach (Control txbEffectif in grpEffectifs.Controls)
                     {
-                        if ((txbEffectif is System.Windows.Forms.TextBox) && (lblEffectif.Name.Contains(nomClasse)))
+                        if ((txbEffectif is System.Windows.Forms.TextBox) && (txbEffectif.Name.Contains(nomClasse)))
                         {
+                            var effectifMax = 0;
                             {
                                 effectifMax = Int16.Parse(txbEffectif.Text);
                             }
@@ -1028,7 +1030,7 @@ namespace Constitution_des_classes
                 DocX doc = DocX.Create(dossier + @"\Structure_niveau_" + Division+ "ème.docx");
                 doc.PageLayout.Orientation = Xceed.Document.NET.Orientation.Landscape;
                 doc.MarginBottom = 1;
-                doc.MarginTop = 5;
+                doc.MarginTop = 10;
                 doc.MarginLeft = 1;
                 doc.MarginRight = 1;
 
@@ -1038,21 +1040,52 @@ namespace Constitution_des_classes
                 tableau.AutoFit = AutoFit.Contents;
 
                 var title = doc.InsertParagraph("Structure " + cbxAnnée.Text + "   -   Niveau " + Division +"ème");
-                title.FontSize(20).Font(new Xceed.Document.NET.Font("Calibri Light"));
+                title.FontSize(18).Font(new Xceed.Document.NET.Font("Calibri"));
                 title.Color(Color.BlueViolet);
                 title.Bold();
                 title.Alignment = Alignment.center;
                 title.Highlight(Highlight.yellow);
                 doc.InsertParagraph();
 
+                var résumé1 = doc.InsertParagraph(NbElevesTotal + " élèves = " + NbDivisions + " divisions");
+                résumé1.FontSize(12).Font(new Xceed.Document.NET.Font("Calibri"));
+                résumé1.Color(Color.BlueViolet);
+                résumé1.Bold();
+                résumé1.Alignment = Alignment.center;
+                doc.InsertParagraph();
+
+                string résuméOptions = "";
+                for (int i = 0; i < ListeOptions.Rows.Count-2; i++)
+                {
+                    résuméOptions = résuméOptions + ListeOptions.Rows[i].Cells[1].Value + " " + ListeOptions.Rows[i].Cells[0].Value + " - ";
+                }
+                résuméOptions = résuméOptions + ListeOptions.Rows[ListeOptions.Rows.Count-2].Cells[1].Value + " " + ListeOptions.Rows[ListeOptions.Rows.Count-2].Cells[0].Value;
+                var résumé2 = doc.InsertParagraph(résuméOptions);
+                résumé2.FontSize(10).Font(new Xceed.Document.NET.Font("Calibri"));
+                résumé2.Color(Color.BlueViolet);
+                résumé2.Alignment = Alignment.center;
+                doc.InsertParagraph();
+
                 char classe = 'A';
                 tableau.InsertRow();
+                int effectif = 0;
                 for (int i = 0; i < NbDivisions; i++)
                 {
-                    tableau.Rows[0].Cells[i].Paragraphs.First().Append(Division + classe);
+                    foreach (Control lblEffectif in grpEffectifs.Controls)
+                    {
+                        
+                        
+                        if ((lblEffectif is Label) && (lblEffectif.Name.Contains(Division+classe)) &&
+                            (lblEffectif.Name.Contains("lblRemplir")))
+                        {
+                            effectif = Int16.Parse(lblEffectif.Text);
+                        }
+                    }
+
+                    tableau.Rows[0].Cells[i].Paragraphs.First().Append(Division + classe + " (" + effectif + ")");
                     tableau.Rows[0].Cells[i].Paragraphs.First().Color(Color.Black);
                     tableau.Rows[0].Cells[i].Paragraphs.First().Bold();
-                    tableau.Rows[0].Cells[i].Paragraphs.First().FontSize(16).Font(new Xceed.Document.NET.Font("Calibri Light"));
+                    tableau.Rows[0].Cells[i].Paragraphs.First().FontSize(14).Font(new Xceed.Document.NET.Font("Calibri"));
                     tableau.Rows[0].Cells[i].FillColor = (Color.LightPink);
                     tableau.Rows[0].Cells[i].Paragraphs.First().Alignment = Alignment.center;
                     Border b = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Gray);
@@ -1077,9 +1110,10 @@ namespace Constitution_des_classes
                             }
                         }
                     }
-                    tableau.Rows[1].Cells[i].Paragraphs.First().Append(options);
+                    tableau.Rows[1].Cells[i].Paragraphs.First().Append(options.ToLower());
                     tableau.Rows[1].Cells[i].Paragraphs.First().Color(Color.Black);
                     tableau.Rows[1].Cells[i].Paragraphs.First().Bold();
+                    tableau.Rows[1].Cells[i].Paragraphs.First().FontSize(11).Font(new Xceed.Document.NET.Font("Calibri"));
                     tableau.Rows[1].Cells[i].FillColor = (Color.LightBlue);
                     tableau.Rows[1].Cells[i].Paragraphs.First().Alignment = Alignment.center;
                     tableau.Rows[1].Cells[i].SetBorder(TableCellBorderType.Left, b);
@@ -1100,9 +1134,10 @@ namespace Constitution_des_classes
                                 tableau.InsertRow();
                                 nbLignes++;
 
-                                tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Append(ligneBilan.Cells[colonneBilan.Index].Value.ToString());
+                                tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Append(ligneBilan.Cells[colonneBilan.Index].Value.ToString().ToLower());
                                 tableau.Rows[nbLignes].Cells[colonneBilan.Index].FillColor = (Color.LightYellow);
                                 tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Bold();
+                                tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().FontSize(10).Font(new Xceed.Document.NET.Font("Calibri"));
                                 tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Color(Color.Red);
                                 Border b = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Gray);
                                 tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Left, b);
@@ -1110,6 +1145,7 @@ namespace Constitution_des_classes
                                 tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Alignment = Alignment.center;
 
                                 DataGridView liste = (DataGridView)Controls.Find("liste" + classeBilan, true)[0]; // ex : "liste4E"
+                                int nbEleves = 0;
 
                                 foreach (DataGridViewRow ligne in liste.Rows)
                                 {
@@ -1126,10 +1162,11 @@ namespace Constitution_des_classes
                                                 .First().Append(ligne.Cells[0].Value.ToString());
                                             tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Top, new Border(BorderStyle.Tcbs_none, BorderSize.one, 1, Color.Red));
                                             tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Italic();
-                                            tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().FontSize(8).Font(new Xceed.Document.NET.Font("Calibri Light"));
+                                            tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().FontSize(8).Font(new Xceed.Document.NET.Font("Calibri"));
                                             //b = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Gray);
                                             tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Left, b);
                                             tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Right, b);
+                                            nbEleves++;
                                         }
                                     }
                                 }

@@ -36,6 +36,8 @@
             this.tabPrincipal = new System.Windows.Forms.TabControl();
             this.Configuration = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblAnnée = new System.Windows.Forms.Label();
+            this.cbxAnnée = new System.Windows.Forms.ComboBox();
             this.btnWord = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -51,8 +53,6 @@
             this.grpMariagesOptions = new System.Windows.Forms.GroupBox();
             this.grpOptions = new System.Windows.Forms.GroupBox();
             this.grpEffectifs = new System.Windows.Forms.GroupBox();
-            this.cbxAnnée = new System.Windows.Forms.ComboBox();
-            this.lblAnnée = new System.Windows.Forms.Label();
             this.tabPrincipal.SuspendLayout();
             this.Configuration.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -130,7 +130,7 @@
             this.Configuration.Padding = new System.Windows.Forms.Padding(3);
             this.Configuration.Size = new System.Drawing.Size(1644, 1015);
             this.Configuration.TabIndex = 0;
-            this.Configuration.Text = "Configuration";
+            this.Configuration.Text = "Tableau de bord";
             // 
             // panel1
             // 
@@ -149,6 +149,33 @@
             this.panel1.Size = new System.Drawing.Size(813, 207);
             this.panel1.TabIndex = 16;
             // 
+            // lblAnnée
+            // 
+            this.lblAnnée.AutoSize = true;
+            this.lblAnnée.Location = new System.Drawing.Point(225, 118);
+            this.lblAnnée.Name = "lblAnnée";
+            this.lblAnnée.Size = new System.Drawing.Size(77, 13);
+            this.lblAnnée.TabIndex = 8;
+            this.lblAnnée.Text = "Année scolaire";
+            // 
+            // cbxAnnée
+            // 
+            this.cbxAnnée.FormattingEnabled = true;
+            this.cbxAnnée.Items.AddRange(new object[] {
+            "2021-2022",
+            "2022-2023",
+            "2023-2024",
+            "2024-2025",
+            "2025-2026",
+            "2026-2027",
+            "2027-2028",
+            "2028-2029",
+            "2029-2030"});
+            this.cbxAnnée.Location = new System.Drawing.Point(316, 115);
+            this.cbxAnnée.Name = "cbxAnnée";
+            this.cbxAnnée.Size = new System.Drawing.Size(78, 21);
+            this.cbxAnnée.TabIndex = 7;
+            // 
             // btnWord
             // 
             this.btnWord.Location = new System.Drawing.Point(649, 161);
@@ -163,11 +190,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Open Sans Extrabold", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Orchid;
             this.label2.Location = new System.Drawing.Point(27, 12);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(126, 26);
+            this.label2.Size = new System.Drawing.Size(160, 30);
             this.label2.TabIndex = 5;
             this.label2.Text = "Initialisation";
             // 
@@ -248,7 +275,7 @@
             this.grpResume.Controls.Add(this.lblTotalEleves);
             this.grpResume.Location = new System.Drawing.Point(31, 366);
             this.grpResume.Name = "grpResume";
-            this.grpResume.Size = new System.Drawing.Size(200, 332);
+            this.grpResume.Size = new System.Drawing.Size(207, 332);
             this.grpResume.TabIndex = 12;
             this.grpResume.TabStop = false;
             this.grpResume.Text = "Résumé";
@@ -334,37 +361,10 @@
             this.grpEffectifs.Location = new System.Drawing.Point(272, 366);
             this.grpEffectifs.Name = "grpEffectifs";
             this.grpEffectifs.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.grpEffectifs.Size = new System.Drawing.Size(253, 332);
+            this.grpEffectifs.Size = new System.Drawing.Size(264, 332);
             this.grpEffectifs.TabIndex = 9;
             this.grpEffectifs.TabStop = false;
             this.grpEffectifs.Text = "Effectifs classes";
-            // 
-            // cbxAnnée
-            // 
-            this.cbxAnnée.FormattingEnabled = true;
-            this.cbxAnnée.Items.AddRange(new object[] {
-            "2021-2022",
-            "2022-2023",
-            "2023-2024",
-            "2024-2025",
-            "2025-2026",
-            "2026-2027",
-            "2027-2028",
-            "2028-2029",
-            "2029-2030"});
-            this.cbxAnnée.Location = new System.Drawing.Point(316, 115);
-            this.cbxAnnée.Name = "cbxAnnée";
-            this.cbxAnnée.Size = new System.Drawing.Size(78, 21);
-            this.cbxAnnée.TabIndex = 7;
-            // 
-            // lblAnnée
-            // 
-            this.lblAnnée.AutoSize = true;
-            this.lblAnnée.Location = new System.Drawing.Point(225, 118);
-            this.lblAnnée.Name = "lblAnnée";
-            this.lblAnnée.Size = new System.Drawing.Size(77, 13);
-            this.lblAnnée.TabIndex = 8;
-            this.lblAnnée.Text = "Année scolaire";
             // 
             // Principal
             // 
@@ -373,6 +373,7 @@
             this.ClientSize = new System.Drawing.Size(1652, 1041);
             this.Controls.Add(this.tabPrincipal);
             this.Name = "Principal";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Constitution des classes";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabPrincipal.ResumeLayout(false);
