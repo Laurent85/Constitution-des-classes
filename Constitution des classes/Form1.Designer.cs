@@ -36,6 +36,7 @@
             this.tabPrincipal = new System.Windows.Forms.TabControl();
             this.Configuration = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnWord = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.grpBilan = new System.Windows.Forms.GroupBox();
@@ -50,7 +51,8 @@
             this.grpMariagesOptions = new System.Windows.Forms.GroupBox();
             this.grpOptions = new System.Windows.Forms.GroupBox();
             this.grpEffectifs = new System.Windows.Forms.GroupBox();
-            this.btnWord = new System.Windows.Forms.Button();
+            this.cbxAnnée = new System.Windows.Forms.ComboBox();
+            this.lblAnnée = new System.Windows.Forms.Label();
             this.tabPrincipal.SuspendLayout();
             this.Configuration.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -133,6 +135,8 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.LightGray;
+            this.panel1.Controls.Add(this.lblAnnée);
+            this.panel1.Controls.Add(this.cbxAnnée);
             this.panel1.Controls.Add(this.btnWord);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.btnParcourir);
@@ -144,6 +148,17 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(813, 207);
             this.panel1.TabIndex = 16;
+            // 
+            // btnWord
+            // 
+            this.btnWord.Location = new System.Drawing.Point(649, 161);
+            this.btnWord.Name = "btnWord";
+            this.btnWord.Size = new System.Drawing.Size(128, 23);
+            this.btnWord.TabIndex = 6;
+            this.btnWord.Text = "Enregistrer sous Word";
+            this.btnWord.UseMnemonic = false;
+            this.btnWord.UseVisualStyleBackColor = true;
+            this.btnWord.Click += new System.EventHandler(this.btnWord_Click);
             // 
             // label2
             // 
@@ -181,6 +196,7 @@
             // 
             this.cbxNbAjoutEleves.BackColor = System.Drawing.Color.LightGray;
             this.cbxNbAjoutEleves.FormattingEnabled = true;
+            this.cbxNbAjoutEleves.ItemHeight = 13;
             this.cbxNbAjoutEleves.Items.AddRange(new object[] {
             "Maxi",
             "1",
@@ -214,7 +230,8 @@
             "29",
             "30",
             "31"});
-            this.cbxNbAjoutEleves.Location = new System.Drawing.Point(1224, 66);
+            this.cbxNbAjoutEleves.Location = new System.Drawing.Point(1531, 64);
+            this.cbxNbAjoutEleves.MaxDropDownItems = 40;
             this.cbxNbAjoutEleves.Name = "cbxNbAjoutEleves";
             this.cbxNbAjoutEleves.Size = new System.Drawing.Size(67, 21);
             this.cbxNbAjoutEleves.TabIndex = 13;
@@ -322,16 +339,32 @@
             this.grpEffectifs.TabStop = false;
             this.grpEffectifs.Text = "Effectifs classes";
             // 
-            // btnWord
+            // cbxAnnée
             // 
-            this.btnWord.Location = new System.Drawing.Point(608, 161);
-            this.btnWord.Name = "btnWord";
-            this.btnWord.Size = new System.Drawing.Size(75, 23);
-            this.btnWord.TabIndex = 6;
-            this.btnWord.Text = "Word";
-            this.btnWord.UseMnemonic = false;
-            this.btnWord.UseVisualStyleBackColor = true;
-            this.btnWord.Click += new System.EventHandler(this.btnWord_Click);
+            this.cbxAnnée.FormattingEnabled = true;
+            this.cbxAnnée.Items.AddRange(new object[] {
+            "2021-2022",
+            "2022-2023",
+            "2023-2024",
+            "2024-2025",
+            "2025-2026",
+            "2026-2027",
+            "2027-2028",
+            "2028-2029",
+            "2029-2030"});
+            this.cbxAnnée.Location = new System.Drawing.Point(316, 115);
+            this.cbxAnnée.Name = "cbxAnnée";
+            this.cbxAnnée.Size = new System.Drawing.Size(78, 21);
+            this.cbxAnnée.TabIndex = 7;
+            // 
+            // lblAnnée
+            // 
+            this.lblAnnée.AutoSize = true;
+            this.lblAnnée.Location = new System.Drawing.Point(225, 118);
+            this.lblAnnée.Name = "lblAnnée";
+            this.lblAnnée.Size = new System.Drawing.Size(77, 13);
+            this.lblAnnée.TabIndex = 8;
+            this.lblAnnée.Text = "Année scolaire";
             // 
             // Principal
             // 
@@ -378,6 +411,8 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnWord;
+        private System.Windows.Forms.Label lblAnnée;
+        private System.Windows.Forms.ComboBox cbxAnnée;
     }
 }
 

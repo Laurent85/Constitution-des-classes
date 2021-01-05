@@ -12,7 +12,6 @@ using Border = Xceed.Document.NET.Border;
 using BorderStyle = Xceed.Document.NET.BorderStyle;
 using Label = System.Windows.Forms.Label;
 using Range = Microsoft.Office.Interop.Excel.Range;
-using Table = Xceed.Document.NET.Table;
 
 namespace Constitution_des_classes
 {
@@ -54,13 +53,12 @@ namespace Constitution_des_classes
         private readonly List<Label> _lblNbMariagesOptions = new List<Label>();
         private readonly List<Label> _lblClassesMariagesOptions = new List<Label>();
         private readonly List<System.Windows.Forms.CheckBox> _cbxMariagesOptions = new List<System.Windows.Forms.CheckBox>();
-        public DocX Doc = DocX.Create(@"F:\test.docx");
-        public Table Tableau;
 
         private void Form1_Load(object sender, EventArgs e)
         {
             TuerProcessus("Excel");
             cbxNbAjoutEleves.SelectedIndex = 0;
+            cbxAnnée.SelectedIndex = 0;
         }
 
         private void btn_Parcourir(object sender, EventArgs e)
@@ -390,7 +388,6 @@ namespace Constitution_des_classes
                     _txbEffectifs[i].Text = MoyenneElevesClasse.ToString();
                 }
 
-                
                 classe++;
             }
 
@@ -597,7 +594,11 @@ namespace Constitution_des_classes
                 foreach (Control lblEffectif in grpEffectifs.Controls)
                 {
                     int effectif = 0;
-                    int effectifMax = 0;
+                    if ((lblEffectif is Label) && (lblEffectif.Name.Contains("lblRemplir")))
+                    {
+                        effectif = Int16.Parse(lblEffectif.Text);
+                    }
+
                     string nomClasse = lblEffectif.Name.After("_");
 
                     if ((lblEffectif is Label) && (chbxOptionClasse.Name.After("_") == lblEffectif.Name.After("_")))
@@ -613,21 +614,23 @@ namespace Constitution_des_classes
                     {
                         if ((txbEffectif is System.Windows.Forms.TextBox) && (lblEffectif.Name.Contains(nomClasse)))
                         {
+                            var effectifMax = 0;
                             {
                                 effectifMax = Int16.Parse(txbEffectif.Text);
                             }
+                            if ((effectif == effectifMax) && (lblEffectif is Label) && (lblEffectif.Name.Contains(nomClasse)))
+                            {
+                                lblEffectif.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold);
+                                lblEffectif.ForeColor = Color.Red;
+                            }
+                            if ((effectif < effectifMax) && (lblEffectif is Label) && (lblEffectif.Name.Contains(nomClasse)))
+                            {
+                                lblEffectif.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+                                lblEffectif.ForeColor = Color.Black;
+                            }
                         }
 
-                        if ((effectif == effectifMax) && (lblEffectif is Label) && (lblEffectif.Name.Contains(nomClasse)))
-                        {
-                            lblEffectif.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold);
-                            lblEffectif.ForeColor = Color.Red;
-                        }
-                        if ((effectif < effectifMax) && (lblEffectif is Label) && (lblEffectif.Name.Contains(nomClasse)))
-                        {
-                            lblEffectif.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-                            lblEffectif.ForeColor = Color.Black;
-                        }
+                        
                     }
                 }
 
@@ -694,6 +697,10 @@ namespace Constitution_des_classes
                 foreach (Control lblEffectif in grpEffectifs.Controls)
                 {
                     int effectif = 0;
+                    if ((lblEffectif is Label) && (lblEffectif.Name.Contains("lblRemplir")))
+                    {
+                        effectif = Int16.Parse(lblEffectif.Text);
+                    }
                     int effectifMax = 0;
                     string nomClasse = lblEffectif.Name.After("_");
 
@@ -712,18 +719,19 @@ namespace Constitution_des_classes
                             {
                                 effectifMax = Int16.Parse(txbEffectif.Text);
                             }
+                            if ((effectif == effectifMax) && (lblEffectif is Label) && (lblEffectif.Name.Contains(nomClasse)))
+                            {
+                                lblEffectif.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold);
+                                lblEffectif.ForeColor = Color.Red;
+                            }
+                            if ((effectif < effectifMax) && (lblEffectif is Label) && (lblEffectif.Name.Contains(nomClasse)))
+                            {
+                                lblEffectif.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+                                lblEffectif.ForeColor = Color.Black;
+                            }
                         }
 
-                        if ((effectif == effectifMax) && (lblEffectif is Label) && (lblEffectif.Name.Contains(nomClasse)))
-                        {
-                            lblEffectif.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold);
-                            lblEffectif.ForeColor = Color.Red;
-                        }
-                        if ((effectif < effectifMax) && (lblEffectif is Label) && (lblEffectif.Name.Contains(nomClasse)))
-                        {
-                            lblEffectif.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-                            lblEffectif.ForeColor = Color.Black;
-                        }
+                        
                     }
                 }
 
@@ -1012,162 +1020,151 @@ namespace Constitution_des_classes
 
         private void btnWord_Click(object sender, EventArgs e)
         {
-            //doc.PageLayout.Orientation = Xceed.Document.NET.Orientation.Landscape;
-            ////doc.InsertParagraph("coucou");
-            ////Create Table with 2 rows and 4 columns.
-            ////Table t = doc.AddTable(2, 4);
-            //Tableau.Alignment = Alignment.center;
-            //Tableau.Design = TableDesign.MediumList1Accent3;
-            //Tableau.AutoFit = AutoFit.Contents;
-            //////Fill cells by adding text.
-            ////t.Rows[0].Cells[1].SetBorder(TableCellBorderType.Left,new Xceed.Document.NET.Border(Xceed.Document.NET.BorderStyle.Tcbs_single, BorderSize.one, 1, Color.Blue));
-            ////t.Rows[1].Cells[1].SetBorder(TableCellBorderType.Left,new Xceed.Document.NET.Border(Xceed.Document.NET.BorderStyle.Tcbs_single, BorderSize.one, 1, Color.Blue));
-            ////t.Rows[0].Cells[0].Paragraphs.First().Append("AA" + "\n" + "bb");
-            ////t.Rows[0].Cells[1].Paragraphs.First().Append("BB");
-            ////t.Rows[0].Cells[2].Paragraphs.First().Append("CC");
-            ////t.Rows[0].Cells[3].Paragraphs.First().Append("DD");
-            ////t.Rows[1].Cells[0].Paragraphs.First().Append("EE");
-            ////t.Rows[1].Cells[1].Paragraphs.First().Append("FF");
-            ////t.Rows[1].Cells[2].Paragraphs.First().Append("GG");
-            ////t.Rows[1].Cells[3].Paragraphs.First().Append("HH");
-
-            ////t.InsertRow();
-            ////t.InsertRow();
-            ////t.InsertRow();
-            ////t.InsertRow();
-            
-            Doc.PageLayout.Orientation = Xceed.Document.NET.Orientation.Landscape;
-            Doc.MarginBottom = 1;
-            Doc.MarginTop = 1;
-            Doc.MarginLeft = 1;
-            Doc.MarginRight = 1;
-            Tableau = Doc.AddTable(1, NbDivisions);
-            Tableau.Alignment = Alignment.center;
-            Tableau.Design = TableDesign.Custom;
-            Tableau.AutoFit = AutoFit.Contents;
-            
-
-            var title = Doc.InsertParagraph("Structure 2020-2021   -   Niveau 3ème");
-            title.FontSize(20).Font(new Xceed.Document.NET.Font("Calibri Light"));
-            title.Color(Color.BlueViolet);
-            title.Alignment = Alignment.center;
-            title.Highlight(Highlight.yellow);
-            Doc.InsertParagraph();
-            
-
-            char classe = 'A';
-            Tableau.InsertRow();
-            for (int i = 0; i < NbDivisions; i++)
+            FolderBrowserDialog folderBrowserDialog1 = new FolderBrowserDialog();
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
-                Tableau.Rows[0].Cells[i].Paragraphs.First().Append(Division + classe);
-                Tableau.Rows[0].Cells[i].Paragraphs.First().Color(Color.Black);
-                Tableau.Rows[0].Cells[i].Paragraphs.First().Bold();
-                Tableau.Rows[0].Cells[i].FillColor = (Color.LightBlue);
-                Tableau.Rows[0].Cells[i].Paragraphs.First().Alignment = Alignment.center;
-                
-                DataGridView liste = (DataGridView)Controls.Find("liste" + Division + classe, true)[0]; // ex : "liste4E"
-                string options = "";
-                foreach (DataGridViewRow row in liste.Rows)
-                {
-                    if (row.Cells[2].Value != null)
-                    {
-                        string groupeOptions = "/" + row.Cells[2].Value.ToString();
-                        string[] authorInfo = groupeOptions.Split('/');
+                var dossier = folderBrowserDialog1.SelectedPath;
 
-                        foreach (string info in authorInfo)
+                DocX doc = DocX.Create(dossier + @"\Structure_niveau_" + Division+ "ème.docx");
+                doc.PageLayout.Orientation = Xceed.Document.NET.Orientation.Landscape;
+                doc.MarginBottom = 1;
+                doc.MarginTop = 5;
+                doc.MarginLeft = 1;
+                doc.MarginRight = 1;
+
+                var tableau = doc.AddTable(1, NbDivisions);
+                tableau.Alignment = Alignment.center;
+                tableau.Design = TableDesign.Custom;
+                tableau.AutoFit = AutoFit.Contents;
+
+                var title = doc.InsertParagraph("Structure " + cbxAnnée.Text + "   -   Niveau " + Division +"ème");
+                title.FontSize(20).Font(new Xceed.Document.NET.Font("Calibri Light"));
+                title.Color(Color.BlueViolet);
+                title.Bold();
+                title.Alignment = Alignment.center;
+                title.Highlight(Highlight.yellow);
+                doc.InsertParagraph();
+
+                char classe = 'A';
+                tableau.InsertRow();
+                for (int i = 0; i < NbDivisions; i++)
+                {
+                    tableau.Rows[0].Cells[i].Paragraphs.First().Append(Division + classe);
+                    tableau.Rows[0].Cells[i].Paragraphs.First().Color(Color.Black);
+                    tableau.Rows[0].Cells[i].Paragraphs.First().Bold();
+                    tableau.Rows[0].Cells[i].Paragraphs.First().FontSize(16).Font(new Xceed.Document.NET.Font("Calibri Light"));
+                    tableau.Rows[0].Cells[i].FillColor = (Color.LightPink);
+                    tableau.Rows[0].Cells[i].Paragraphs.First().Alignment = Alignment.center;
+                    Border b = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Gray);
+                    tableau.Rows[0].Cells[i].SetBorder(TableCellBorderType.Left, b);
+                    tableau.Rows[0].Cells[i].SetBorder(TableCellBorderType.Right, b);
+
+                    DataGridView liste = (DataGridView)Controls.Find("liste" + Division + classe, true)[0]; // ex : "liste4E"
+                    string options = "";
+                    foreach (DataGridViewRow row in liste.Rows)
+                    {
+                        if (row.Cells[2].Value != null)
                         {
-                            if (!options.Contains(info))
+                            string groupeOptions = "/" + row.Cells[2].Value.ToString();
+                            string[] authorInfo = groupeOptions.Split('/');
+
+                            foreach (string info in authorInfo)
                             {
-                                options = options + info + "  ";
+                                if (!options.Contains(info))
+                                {
+                                    options = options + info + "  ";
+                                }
                             }
                         }
-
                     }
+                    tableau.Rows[1].Cells[i].Paragraphs.First().Append(options);
+                    tableau.Rows[1].Cells[i].Paragraphs.First().Color(Color.Black);
+                    tableau.Rows[1].Cells[i].Paragraphs.First().Bold();
+                    tableau.Rows[1].Cells[i].FillColor = (Color.LightBlue);
+                    tableau.Rows[1].Cells[i].Paragraphs.First().Alignment = Alignment.center;
+                    tableau.Rows[1].Cells[i].SetBorder(TableCellBorderType.Left, b);
+                    tableau.Rows[1].Cells[i].SetBorder(TableCellBorderType.Right, b);
+                    classe++;
                 }
-                //Tableau.Rows[0].Cells[i].Paragraphs.First().Append(Division + classe);
-                Tableau.Rows[1].Cells[i].Paragraphs.First().Append(options);
-                classe++;
-            }
 
-            
-            {
-                foreach (DataGridViewColumn colonneBilan in ListeBilan.Columns)
                 {
-                    string classeBilan = colonneBilan.HeaderText;
-                    int nbLignes = 1;
-
-                    foreach (DataGridViewRow ligneBilan in ListeBilan.Rows)
+                    foreach (DataGridViewColumn colonneBilan in ListeBilan.Columns)
                     {
-                        if (ligneBilan.Cells[colonneBilan.Index].Value != null)
+                        string classeBilan = colonneBilan.HeaderText;
+                        int nbLignes = 1;
+
+                        foreach (DataGridViewRow ligneBilan in ListeBilan.Rows)
                         {
-                            Tableau.InsertRow();
-                            nbLignes++;
-
-                            Tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Append(ligneBilan.Cells[colonneBilan.Index].Value.ToString());
-                            Tableau.Rows[nbLignes].Cells[colonneBilan.Index].FillColor = (Color.LightYellow);
-                            Tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Bold();
-                            Tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Color(Color.Red);
-                            Border b = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Gray);
-                            Tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Left, b);
-                            Tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Right, b);
-                            Tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Alignment = Alignment.center;
-
-                            DataGridView liste = (DataGridView)Controls.Find("liste" + classeBilan, true)[0]; // ex : "liste4E"
-
-                            foreach (DataGridViewRow ligne in liste.Rows)
+                            if (ligneBilan.Cells[colonneBilan.Index].Value != null)
                             {
-                                if (ligne.Cells[2].Value != null)
+                                tableau.InsertRow();
+                                nbLignes++;
+
+                                tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Append(ligneBilan.Cells[colonneBilan.Index].Value.ToString());
+                                tableau.Rows[nbLignes].Cells[colonneBilan.Index].FillColor = (Color.LightYellow);
+                                tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Bold();
+                                tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Color(Color.Red);
+                                Border b = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Gray);
+                                tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Left, b);
+                                tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Right, b);
+                                tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Alignment = Alignment.center;
+
+                                DataGridView liste = (DataGridView)Controls.Find("liste" + classeBilan, true)[0]; // ex : "liste4E"
+
+                                foreach (DataGridViewRow ligne in liste.Rows)
                                 {
-                                    int supr = ligneBilan.Cells[colonneBilan.Index].Value.ToString().IndexOf(" ", StringComparison.Ordinal);
-                                    string option = ligneBilan.Cells[colonneBilan.Index].Value.ToString()
-                                        .Remove(0, supr + 1);
-                                    if (ligne.Cells[2].Value.ToString() == option)
+                                    if (ligne.Cells[2].Value != null)
                                     {
-                                        Tableau.InsertRow();
-                                        nbLignes++;
-                                        Tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs
-                                            .First().Append(ligne.Cells[0].Value.ToString());
-                                        Tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Top,new Border(BorderStyle.Tcbs_none, BorderSize.one, 1, Color.Red));
-                                        Tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Italic();
-                                        //b = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Gray);
-                                        Tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Left, b);
-                                        Tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Right, b);
+                                        int supr = ligneBilan.Cells[colonneBilan.Index].Value.ToString().IndexOf(" ", StringComparison.Ordinal);
+                                        string option = ligneBilan.Cells[colonneBilan.Index].Value.ToString()
+                                            .Remove(0, supr + 1);
+                                        if (ligne.Cells[2].Value.ToString() == option)
+                                        {
+                                            tableau.InsertRow();
+                                            nbLignes++;
+                                            tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs
+                                                .First().Append(ligne.Cells[0].Value.ToString());
+                                            tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Top, new Border(BorderStyle.Tcbs_none, BorderSize.one, 1, Color.Red));
+                                            tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Italic();
+                                            tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().FontSize(8).Font(new Xceed.Document.NET.Font("Calibri Light"));
+                                            //b = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Gray);
+                                            tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Left, b);
+                                            tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Right, b);
+                                        }
                                     }
                                 }
                             }
                         }
-                        
                     }
 
-                }
-
-                
-                for (int i = Tableau.Rows.Count-1; i>=0; i-- )
-                {
-                    int compteur = 0;
-                    for (int j = 0; j < NbDivisions; j++)
+                    for (int i = tableau.Rows.Count - 1; i >= 0; i--)
                     {
-                        if (Tableau.Rows[i].Cells[j].Paragraphs[0].Text == "")
+                        int compteur = 0;
+                        for (int j = 0; j < NbDivisions; j++)
                         {
-                            //if (Tableau.Rows[i].Cells[j].Paragraphs.First().Text == "")
+                            if (tableau.Rows[i].Cells[j].Paragraphs[0].Text == "")
                             {
-                                compteur++;
-
-                                if (compteur == NbDivisions)
+                                //if (Tableau.Rows[i].Cells[j].Paragraphs.First().Text == "")
                                 {
-                                    Tableau.Rows[i].Remove();
-                                    compteur = 0;
+                                    compteur++;
+
+                                    if (compteur == NbDivisions)
+                                    {
+                                        tableau.Rows[i].Remove();
+                                        compteur = 0;
+                                    }
                                 }
                             }
                         }
-                    }
-                    
-                }
-            }
 
-            Doc.InsertTable(Tableau);
-            Doc.Save();
-            Process.Start("WINWORD.EXE", @"F:\test.docx");
+                        //Tableau.Rows[1].Height=(0.6);
+                    }
+                }
+
+                doc.InsertTable(tableau);
+                doc.Save();
+                Process.Start("WINWORD.EXE", dossier + @"\Structure_niveau_" + Division+ "ème.docx");
+            }
         }
     }
 
