@@ -84,6 +84,7 @@
             this.txbNombreClasses.Name = "txbNombreClasses";
             this.txbNombreClasses.Size = new System.Drawing.Size(45, 20);
             this.txbNombreClasses.TabIndex = 2;
+            this.txbNombreClasses.TextChanged += new System.EventHandler(this.txbNombreClasses_TextChanged);
             // 
             // lblCheminFichierExcel
             // 
@@ -93,6 +94,7 @@
             this.lblCheminFichierExcel.Size = new System.Drawing.Size(142, 13);
             this.lblCheminFichierExcel.TabIndex = 3;
             this.lblCheminFichierExcel.Text = "Chemin du fichier des élèves";
+            this.lblCheminFichierExcel.TextChanged += new System.EventHandler(this.ChangementLblChemin);
             // 
             // btnValiderConfig
             // 
@@ -175,6 +177,7 @@
             this.cbxAnnée.Name = "cbxAnnée";
             this.cbxAnnée.Size = new System.Drawing.Size(78, 21);
             this.cbxAnnée.TabIndex = 7;
+            this.cbxAnnée.SelectedIndexChanged += new System.EventHandler(this.cbxAnnée_SelectedIndexChanged);
             // 
             // btnWord
             // 

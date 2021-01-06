@@ -59,8 +59,6 @@ namespace Constitution_des_classes
             TuerProcessus("Excel");
             cbxNbAjoutEleves.SelectedIndex = 0;
             cbxAnnée.SelectedIndex = 0;
-            btnValiderConfig.Enabled = false;
-            btnWord.Enabled = false;
         }
 
         private void btn_Parcourir(object sender, EventArgs e)
@@ -477,7 +475,6 @@ namespace Constitution_des_classes
             }
 
             VerifierCasesCochables();
-            btnWord.Enabled = true;
         }
 
         private void Classe_Cochee(object sender, EventArgs e)
@@ -618,7 +615,7 @@ namespace Constitution_des_classes
                     {
                         if ((txbEffectif is System.Windows.Forms.TextBox) && (txbEffectif.Name.Contains(nomClasse)))
                         {
-                            int effectifMax;
+                            var effectifMax = 0;
                             {
                                 effectifMax = Int16.Parse(txbEffectif.Text);
                             }
@@ -720,7 +717,7 @@ namespace Constitution_des_classes
                     {
                         if ((txbEffectif is System.Windows.Forms.TextBox) && (txbEffectif.Name.Contains(nomClasse)))
                         {
-                            int effectifMax;
+                            var effectifMax = 0;
                             {
                                 effectifMax = Int16.Parse(txbEffectif.Text);
                             }
@@ -947,7 +944,7 @@ namespace Constitution_des_classes
                                 }
 
                                 (ligne.Cells[2] as DataGridViewComboBoxCell)?.Items.Remove(
-                                    (ligne.Cells[2] as DataGridViewComboBoxCell).Items[i] ??
+                                    (ligne.Cells[2] as DataGridViewComboBoxCell)?.Items[i] ??
                                     throw new InvalidOperationException());
 
                                 ligne.Cells[1].Value = (ligne.Cells[2] as DataGridViewComboBoxCell)?.Items.Count;
@@ -1044,11 +1041,10 @@ namespace Constitution_des_classes
 
                 var title = doc.InsertParagraph("Structure " + cbxAnnée.Text + "   -   Niveau " + Division +"ème");
                 title.FontSize(18).Font(new Xceed.Document.NET.Font("Calibri"));
-                title.Color(Color.DarkRed);
+                title.Color(Color.BlueViolet);
                 title.Bold();
-                title.UnderlineColor(Color.DarkRed);
                 title.Alignment = Alignment.center;
-                //title.Highlight(Highlight.yellow);
+                title.Highlight(Highlight.yellow);
                 doc.InsertParagraph();
 
                 var résumé1 = doc.InsertParagraph(NbElevesTotal + " élèves = " + NbDivisions + " divisions");
@@ -1071,7 +1067,6 @@ namespace Constitution_des_classes
                 doc.InsertParagraph();
 
                 char classe = 'A';
-                tableau.InsertRow();
                 tableau.InsertRow();
                 int effectif = 0;
                 for (int i = 0; i < NbDivisions; i++)
@@ -1097,23 +1092,13 @@ namespace Constitution_des_classes
                     tableau.Rows[0].Cells[i].SetBorder(TableCellBorderType.Left, b);
                     tableau.Rows[0].Cells[i].SetBorder(TableCellBorderType.Right, b);
 
-                    tableau.Rows[1].Cells[i].Paragraphs.First().Append("PP : ");
-                    tableau.Rows[1].Cells[i].Paragraphs.First().Color(Color.Black);
-                    tableau.Rows[1].Cells[i].Paragraphs.First().Bold();
-                    tableau.Rows[1].Cells[i].Paragraphs.First().FontSize(10).Font(new Xceed.Document.NET.Font("Calibri"));
-                    tableau.Rows[1].Cells[i].FillColor = (Color.LightGreen);
-                    tableau.Rows[1].Cells[i].Paragraphs.First().Alignment = Alignment.left;
-                    b = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Gray);
-                    tableau.Rows[1].Cells[i].SetBorder(TableCellBorderType.Left, b);
-                    tableau.Rows[1].Cells[i].SetBorder(TableCellBorderType.Right, b);
-
                     DataGridView liste = (DataGridView)Controls.Find("liste" + Division + classe, true)[0]; // ex : "liste4E"
                     string options = "";
                     foreach (DataGridViewRow row in liste.Rows)
                     {
                         if (row.Cells[2].Value != null)
                         {
-                            string groupeOptions = "/" + row.Cells[2].Value;
+                            string groupeOptions = "/" + row.Cells[2].Value.ToString();
                             string[] authorInfo = groupeOptions.Split('/');
 
                             foreach (string info in authorInfo)
@@ -1125,14 +1110,14 @@ namespace Constitution_des_classes
                             }
                         }
                     }
-                    tableau.Rows[2].Cells[i].Paragraphs.First().Append(options.ToLower());
-                    tableau.Rows[2].Cells[i].Paragraphs.First().Color(Color.Black);
-                    tableau.Rows[2].Cells[i].Paragraphs.First().Bold();
-                    tableau.Rows[2].Cells[i].Paragraphs.First().FontSize(11).Font(new Xceed.Document.NET.Font("Calibri"));
-                    tableau.Rows[2].Cells[i].FillColor = (Color.LightBlue);
-                    tableau.Rows[2].Cells[i].Paragraphs.First().Alignment = Alignment.center;
-                    tableau.Rows[2].Cells[i].SetBorder(TableCellBorderType.Left, b);
-                    tableau.Rows[2].Cells[i].SetBorder(TableCellBorderType.Right, b);
+                    tableau.Rows[1].Cells[i].Paragraphs.First().Append(options.ToLower());
+                    tableau.Rows[1].Cells[i].Paragraphs.First().Color(Color.Black);
+                    tableau.Rows[1].Cells[i].Paragraphs.First().Bold();
+                    tableau.Rows[1].Cells[i].Paragraphs.First().FontSize(11).Font(new Xceed.Document.NET.Font("Calibri"));
+                    tableau.Rows[1].Cells[i].FillColor = (Color.LightBlue);
+                    tableau.Rows[1].Cells[i].Paragraphs.First().Alignment = Alignment.center;
+                    tableau.Rows[1].Cells[i].SetBorder(TableCellBorderType.Left, b);
+                    tableau.Rows[1].Cells[i].SetBorder(TableCellBorderType.Right, b);
                     classe++;
                 }
 
@@ -1140,7 +1125,7 @@ namespace Constitution_des_classes
                     foreach (DataGridViewColumn colonneBilan in ListeBilan.Columns)
                     {
                         string classeBilan = colonneBilan.HeaderText;
-                        int nbLignes = 2;
+                        int nbLignes = 1;
 
                         foreach (DataGridViewRow ligneBilan in ListeBilan.Rows)
                         {
@@ -1216,45 +1201,6 @@ namespace Constitution_des_classes
                 doc.InsertTable(tableau);
                 doc.Save();
                 Process.Start("WINWORD.EXE", dossier + @"\Structure_niveau_" + Division+ "ème.docx");
-            }
-        }
-
-        private void ChangementLblChemin(object sender, EventArgs e)
-        {
-            if ((lblCheminFichierExcel.Text.Contains("xls")) && (txbNombreClasses.Text != null) &&
-                (cbxAnnée.Text != null))
-            {
-                btnValiderConfig.Enabled = true;
-            }
-            else
-            {
-                btnValiderConfig.Enabled = false;
-            }
-        }
-
-        private void txbNombreClasses_TextChanged(object sender, EventArgs e)
-        {
-            if ((lblCheminFichierExcel.Text.Contains("xls")) && (txbNombreClasses.Text != null) &&
-                (cbxAnnée.Text != null))
-            {
-                btnValiderConfig.Enabled = true;
-            }
-            else
-            {
-                btnValiderConfig.Enabled = false;
-            }
-        }
-
-        private void cbxAnnée_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if ((lblCheminFichierExcel.Text.Contains("xls")) && (txbNombreClasses.Text != null) &&
-                (cbxAnnée.Text != null))
-            {
-                btnValiderConfig.Enabled = true;
-            }
-            else
-            {
-                btnValiderConfig.Enabled = false;
             }
         }
     }
