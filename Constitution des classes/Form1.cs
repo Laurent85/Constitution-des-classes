@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
@@ -52,6 +53,7 @@ namespace Constitution_des_classes
         private readonly List<Label> _lblMariagesOptions = new List<Label>();
         private readonly List<Label> _lblNbMariagesOptions = new List<Label>();
         private readonly List<Label> _lblClassesMariagesOptions = new List<Label>();
+        public readonly List<Label> NomDuPp = new List<Label>();
         private readonly List<System.Windows.Forms.CheckBox> _cbxMariagesOptions = new List<System.Windows.Forms.CheckBox>();
 
         private void Form1_Load(object sender, EventArgs e)
@@ -103,6 +105,7 @@ namespace Constitution_des_classes
             tabPrincipal.TabPages.Add(nomOnglet);
             nomOnglet.Controls.Add(liste);
             paramètresListe(liste);
+            
         }
 
         private void btn_Valider_Config(object sender, EventArgs e)
@@ -947,7 +950,7 @@ namespace Constitution_des_classes
                                 }
 
                                 (ligne.Cells[2] as DataGridViewComboBoxCell)?.Items.Remove(
-                                    (ligne.Cells[2] as DataGridViewComboBoxCell).Items[i] ??
+                                    (ligne.Cells[2] as DataGridViewComboBoxCell)?.Items[i] ??
                                     throw new InvalidOperationException());
 
                                 ligne.Cells[1].Value = (ligne.Cells[2] as DataGridViewComboBoxCell)?.Items.Count;
@@ -1221,7 +1224,7 @@ namespace Constitution_des_classes
 
         private void ChangementLblChemin(object sender, EventArgs e)
         {
-            if ((lblCheminFichierExcel.Text.Contains("xls")) && (txbNombreClasses.Text != null) &&
+            if ((lblCheminFichierExcel.Text.Contains("xls")) && (Regex.IsMatch(txbNombreClasses.Text, @"^\d+$")) &&
                 (cbxAnnée.Text != null))
             {
                 btnValiderConfig.Enabled = true;
@@ -1234,7 +1237,7 @@ namespace Constitution_des_classes
 
         private void txbNombreClasses_TextChanged(object sender, EventArgs e)
         {
-            if ((lblCheminFichierExcel.Text.Contains("xls")) && (txbNombreClasses.Text != null) &&
+            if ((lblCheminFichierExcel.Text.Contains("xls")) && (Regex.IsMatch(txbNombreClasses.Text, @"^\d+$")) &&
                 (cbxAnnée.Text != null))
             {
                 btnValiderConfig.Enabled = true;
@@ -1247,7 +1250,7 @@ namespace Constitution_des_classes
 
         private void cbxAnnée_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if ((lblCheminFichierExcel.Text.Contains("xls")) && (txbNombreClasses.Text != null) &&
+            if ((lblCheminFichierExcel.Text.Contains("xls")) && (Regex.IsMatch(txbNombreClasses.Text, @"^\d+$")) &&
                 (cbxAnnée.Text != null))
             {
                 btnValiderConfig.Enabled = true;
@@ -1256,6 +1259,21 @@ namespace Constitution_des_classes
             {
                 btnValiderConfig.Enabled = false;
             }
+        }
+
+        
+        public void btnPP_Click(object sender, EventArgs e)
+        {
+            char classe = 'A';
+            for (int nbPp = 1; nbPp <= NbDivisions; nbPp++)
+            {
+                NomDuPp.Add(new Label());
+                NomDuPp[nbPp].Name = "PP_" + Division + classe;
+                classe++;
+            }
+
+            Form2 form2 = new Form2();
+            //form2.Load();
         }
     }
 

@@ -53,6 +53,7 @@
             this.grpMariagesOptions = new System.Windows.Forms.GroupBox();
             this.grpOptions = new System.Windows.Forms.GroupBox();
             this.grpEffectifs = new System.Windows.Forms.GroupBox();
+            this.btnPP = new System.Windows.Forms.Button();
             this.tabPrincipal.SuspendLayout();
             this.Configuration.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -137,6 +138,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.LightGray;
+            this.panel1.Controls.Add(this.btnPP);
             this.panel1.Controls.Add(this.lblAnnée);
             this.panel1.Controls.Add(this.cbxAnnée);
             this.panel1.Controls.Add(this.btnWord);
@@ -193,11 +195,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Open Sans Extrabold", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Orchid;
             this.label2.Location = new System.Drawing.Point(27, 12);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(160, 30);
+            this.label2.Size = new System.Drawing.Size(126, 26);
             this.label2.TabIndex = 5;
             this.label2.Text = "Initialisation";
             // 
@@ -369,6 +371,16 @@
             this.grpEffectifs.TabStop = false;
             this.grpEffectifs.Text = "Effectifs classes";
             // 
+            // btnPP
+            // 
+            this.btnPP.Location = new System.Drawing.Point(649, 112);
+            this.btnPP.Name = "btnPP";
+            this.btnPP.Size = new System.Drawing.Size(128, 23);
+            this.btnPP.TabIndex = 9;
+            this.btnPP.Text = "Affecter les PP";
+            this.btnPP.UseVisualStyleBackColor = true;
+            this.btnPP.Click += new System.EventHandler(this.btnPP_Click);
+            // 
             // Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -417,6 +429,7 @@
         private System.Windows.Forms.Button btnWord;
         private System.Windows.Forms.Label lblAnnée;
         private System.Windows.Forms.ComboBox cbxAnnée;
+        private System.Windows.Forms.Button btnPP;
     }
 }
 
