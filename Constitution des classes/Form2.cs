@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Constitution_des_classes
@@ -17,26 +11,44 @@ namespace Constitution_des_classes
             InitializeComponent();
         }
 
-        private readonly Principal _principal = new Principal();
-        
-        private readonly List<System.Windows.Forms.TextBox> _txbPp = new List<System.Windows.Forms.TextBox>();
-        private readonly List<Label> _lblClassePp = new List<Label>();
+        public Principal Principal = new Principal();
 
-        private void Form2_Load(object sender, EventArgs e)
+        public List<System.Windows.Forms.TextBox> TxbPp = new List<System.Windows.Forms.TextBox>();
+        public List<Label> LblClassePp = new List<Label>();
+        public List<TextBox> TxbClassePp = new List<TextBox>();
+
+        public void Form2_Load(object sender, EventArgs e)
         {
-            _principal.NomDuPp[0].Text = "";
             char classe = 'A';
             int y = 40;
 
-            for (int i = 0; i < _principal.NbDivisions; i++)
+            for (int i = 0; i < Principal.NbDivisions; i++)
             {
-                _lblClassePp.Add(new Label());
-                _lblClassePp[i].Name = "_lblClassePp_" + i;
-                _lblClassePp[i].Text = _principal.Division + classe;
-                _lblClassePp[i].Location = new System.Drawing.Point(20, y);
-                panelPP.Controls.Add(_lblClassePp[i]);
+                LblClassePp.Add(new Label());
+                LblClassePp[i].Name = "_lblClassePp_" + i;
+                LblClassePp[i].Text = Principal.Division + classe;
+                LblClassePp[i].Location = new System.Drawing.Point(100, y);
+                panelPP.Controls.Add(LblClassePp[i]);
+
+                TxbClassePp.Add(new TextBox());
+                TxbClassePp[i].Name = "_txbClassePp_" + i;
+                TxbClassePp[i].Text = Principal.ListePp[i];
+                TxbClassePp[i].Location = new System.Drawing.Point(200, y);
+                TxbClassePp[i].Width = 150;
+                panelPP.Controls.Add(TxbClassePp[i]);
+                y = y + 50;
                 classe++;
             }
+        }
+
+        private void btnValiderPp_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < Principal.NbDivisions; i++)
+            {
+                Principal.ListePp[i] = TxbClassePp[i].Text;
+            }
+
+            this.Close();
         }
     }
 }

@@ -31,6 +31,8 @@ namespace Constitution_des_classes
         {
             this.label1 = new System.Windows.Forms.Label();
             this.panelPP = new System.Windows.Forms.Panel();
+            this.btnValiderPp = new System.Windows.Forms.Button();
+            this.panelPP.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -40,16 +42,27 @@ namespace Constitution_des_classes
             this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
             this.label1.Location = new System.Drawing.Point(57, 38);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(416, 26);
+            this.label1.Size = new System.Drawing.Size(413, 26);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Attribution des Professeurs principaux";
+            this.label1.Text = "Attribution des professeurs principaux";
             // 
             // panelPP
             // 
+            this.panelPP.Controls.Add(this.btnValiderPp);
             this.panelPP.Location = new System.Drawing.Point(62, 112);
             this.panelPP.Name = "panelPP";
             this.panelPP.Size = new System.Drawing.Size(411, 401);
             this.panelPP.TabIndex = 1;
+            // 
+            // btnValiderPp
+            // 
+            this.btnValiderPp.Location = new System.Drawing.Point(141, 364);
+            this.btnValiderPp.Name = "btnValiderPp";
+            this.btnValiderPp.Size = new System.Drawing.Size(128, 23);
+            this.btnValiderPp.TabIndex = 0;
+            this.btnValiderPp.Text = "Valider les PP";
+            this.btnValiderPp.UseVisualStyleBackColor = true;
+            this.btnValiderPp.Click += new System.EventHandler(this.btnValiderPp_Click);
             // 
             // Form2
             // 
@@ -61,6 +74,8 @@ namespace Constitution_des_classes
             this.Name = "Form2";
             this.Text = "Form2";
             this.Load += new System.EventHandler(this.Form2_Load);
+            this.Shown += new System.EventHandler(this.Form2_Load);
+            this.panelPP.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -70,5 +85,6 @@ namespace Constitution_des_classes
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panelPP;
+        private System.Windows.Forms.Button btnValiderPp;
     }
 }

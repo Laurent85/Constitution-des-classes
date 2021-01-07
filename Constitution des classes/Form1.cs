@@ -29,7 +29,7 @@ namespace Constitution_des_classes
         public int MoyenneElevesClasse;
         public int MoyenneElevesClasseEtReste;
         public int Reste;
-        public int NbDivisions;
+        public static int NbDivisions;
         public int NbEcoles;
         public int NbLignesEcoles;
         public int NbLignesMariagesOptions;
@@ -38,7 +38,7 @@ namespace Constitution_des_classes
         public int VerifieLigneExiste;
         public int NbOptions;
         public int NbMariagesOptions;
-        public string Division;
+        public static string Division;
         public DataGridView ListeEleves = new DataGridView();
         public DataGridView ListeEcoles = new DataGridView();
         public DataGridView ListeOptions = new DataGridView();
@@ -55,6 +55,7 @@ namespace Constitution_des_classes
         private readonly List<Label> _lblClassesMariagesOptions = new List<Label>();
         public readonly List<Label> NomDuPp = new List<Label>();
         private readonly List<System.Windows.Forms.CheckBox> _cbxMariagesOptions = new List<System.Windows.Forms.CheckBox>();
+        public static string[] ListePp = new string[6];
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -63,6 +64,7 @@ namespace Constitution_des_classes
             cbxAnnée.SelectedIndex = 0;
             btnValiderConfig.Enabled = false;
             btnWord.Enabled = false;
+            btnPP.Enabled = false;
         }
 
         private void btn_Parcourir(object sender, EventArgs e)
@@ -481,6 +483,7 @@ namespace Constitution_des_classes
 
             VerifierCasesCochables();
             btnWord.Enabled = true;
+            btnPP.Enabled = true;
         }
 
         private void Classe_Cochee(object sender, EventArgs e)
@@ -950,7 +953,7 @@ namespace Constitution_des_classes
                                 }
 
                                 (ligne.Cells[2] as DataGridViewComboBoxCell)?.Items.Remove(
-                                    (ligne.Cells[2] as DataGridViewComboBoxCell)?.Items[i] ??
+                                    (ligne.Cells[2] as DataGridViewComboBoxCell).Items[i] ??
                                     throw new InvalidOperationException());
 
                                 ligne.Cells[1].Value = (ligne.Cells[2] as DataGridViewComboBoxCell)?.Items.Count;
@@ -1100,11 +1103,10 @@ namespace Constitution_des_classes
                     tableau.Rows[0].Cells[i].SetBorder(TableCellBorderType.Left, b);
                     tableau.Rows[0].Cells[i].SetBorder(TableCellBorderType.Right, b);
 
-                    tableau.Rows[1].Cells[i].Paragraphs.First().Append("PP : ");
-                    tableau.Rows[1].Cells[i].Paragraphs.First().Color(Color.Black);
-                    tableau.Rows[1].Cells[i].Paragraphs.First().Bold();
-                    tableau.Rows[1].Cells[i].Paragraphs.First().FontSize(10).Font(new Xceed.Document.NET.Font("Calibri"));
-                    tableau.Rows[1].Cells[i].FillColor = (Color.LightGreen);
+                    tableau.Rows[1].Cells[i].Paragraphs.First().Append("PP : " + ListePp[i]);
+                    tableau.Rows[1].Cells[i].Paragraphs.First().Color(Color.Gray);
+                    tableau.Rows[1].Cells[i].Paragraphs.First().FontSize(9).Font(new Xceed.Document.NET.Font("Calibri"));
+                    tableau.Rows[1].Cells[i].FillColor = (Color.LightYellow);
                     tableau.Rows[1].Cells[i].Paragraphs.First().Alignment = Alignment.left;
                     b = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Gray);
                     tableau.Rows[1].Cells[i].SetBorder(TableCellBorderType.Left, b);
@@ -1265,7 +1267,7 @@ namespace Constitution_des_classes
         public void btnPP_Click(object sender, EventArgs e)
         {
             char classe = 'A';
-            for (int nbPp = 1; nbPp <= NbDivisions; nbPp++)
+            for (int nbPp = 0; nbPp < NbDivisions; nbPp++)
             {
                 NomDuPp.Add(new Label());
                 NomDuPp[nbPp].Name = "PP_" + Division + classe;
@@ -1273,7 +1275,8 @@ namespace Constitution_des_classes
             }
 
             Form2 form2 = new Form2();
-            //form2.Load();
+            form2.Show();
+
         }
     }
 
