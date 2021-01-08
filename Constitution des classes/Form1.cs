@@ -112,6 +112,8 @@ namespace Constitution_des_classes
 
         private void btn_Valider_Config(object sender, EventArgs e)
         {
+            Attente attente = new Attente();
+            attente.Show();
             char classe = 'A';
             var excelApplication = new Microsoft.Office.Interop.Excel.Application();
 
@@ -484,6 +486,7 @@ namespace Constitution_des_classes
             VerifierCasesCochables();
             btnWord.Enabled = true;
             btnPP.Enabled = true;
+            attente.Close();
         }
 
         private void Classe_Cochee(object sender, EventArgs e)
@@ -1106,7 +1109,7 @@ namespace Constitution_des_classes
                     tableau.Rows[1].Cells[i].Paragraphs.First().Append("PP : " + ListePp[i]);
                     tableau.Rows[1].Cells[i].Paragraphs.First().Color(Color.Gray);
                     tableau.Rows[1].Cells[i].Paragraphs.First().FontSize(9).Font(new Xceed.Document.NET.Font("Calibri"));
-                    tableau.Rows[1].Cells[i].FillColor = (Color.LightYellow);
+                    tableau.Rows[1].Cells[i].FillColor = (Color.LightPink);
                     tableau.Rows[1].Cells[i].Paragraphs.First().Alignment = Alignment.left;
                     b = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Gray);
                     tableau.Rows[1].Cells[i].SetBorder(TableCellBorderType.Left, b);
@@ -1277,6 +1280,23 @@ namespace Constitution_des_classes
             Form2 form2 = new Form2();
             form2.Show();
 
+        }
+
+        private void VérifierOptionsClasses()
+        {
+            string[] optionsTrouvees = new string[10];
+            int i = 0;
+
+            foreach (DataGridViewRow options in ListeMariagesOptions.Rows)
+            {
+                foreach (DataGridViewColumn classes in ListeBilan.Columns)
+                {
+                    foreach (DataGridViewRow optionClasse in ListeBilan.Rows)
+                    {
+                        
+                    }
+                }
+            }
         }
     }
 
