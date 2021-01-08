@@ -953,7 +953,7 @@ namespace Constitution_des_classes
                                 }
 
                                 (ligne.Cells[2] as DataGridViewComboBoxCell)?.Items.Remove(
-                                    (ligne.Cells[2] as DataGridViewComboBoxCell).Items[i] ??
+                                    (ligne.Cells[2] as DataGridViewComboBoxCell)?.Items[i] ??
                                     throw new InvalidOperationException());
 
                                 ligne.Cells[1].Value = (ligne.Cells[2] as DataGridViewComboBoxCell)?.Items.Count;

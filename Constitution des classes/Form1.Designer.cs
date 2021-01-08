@@ -280,7 +280,7 @@
             this.grpResume.Controls.Add(this.lblTotalEleves);
             this.grpResume.Location = new System.Drawing.Point(31, 366);
             this.grpResume.Name = "grpResume";
-            this.grpResume.Size = new System.Drawing.Size(207, 332);
+            this.grpResume.Size = new System.Drawing.Size(207, 341);
             this.grpResume.TabIndex = 12;
             this.grpResume.TabStop = false;
             this.grpResume.Text = "Résumé";
@@ -355,7 +355,7 @@
             this.grpOptions.BackColor = System.Drawing.Color.LightGray;
             this.grpOptions.Location = new System.Drawing.Point(569, 366);
             this.grpOptions.Name = "grpOptions";
-            this.grpOptions.Size = new System.Drawing.Size(275, 332);
+            this.grpOptions.Size = new System.Drawing.Size(275, 341);
             this.grpOptions.TabIndex = 10;
             this.grpOptions.TabStop = false;
             this.grpOptions.Text = "Options";
@@ -366,7 +366,7 @@
             this.grpEffectifs.Location = new System.Drawing.Point(272, 366);
             this.grpEffectifs.Name = "grpEffectifs";
             this.grpEffectifs.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.grpEffectifs.Size = new System.Drawing.Size(264, 332);
+            this.grpEffectifs.Size = new System.Drawing.Size(264, 341);
             this.grpEffectifs.TabIndex = 9;
             this.grpEffectifs.TabStop = false;
             this.grpEffectifs.Text = "Effectifs classes";

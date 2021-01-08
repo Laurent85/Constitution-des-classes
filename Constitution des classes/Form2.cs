@@ -15,7 +15,7 @@ namespace Constitution_des_classes
 
         public List<System.Windows.Forms.TextBox> TxbPp = new List<System.Windows.Forms.TextBox>();
         public List<Label> LblClassePp = new List<Label>();
-        public List<TextBox> TxbClassePp = new List<TextBox>();
+        public List<ComboBox> CbxClassePp = new List<ComboBox>();
 
         public void Form2_Load(object sender, EventArgs e)
         {
@@ -30,12 +30,19 @@ namespace Constitution_des_classes
                 LblClassePp[i].Location = new System.Drawing.Point(100, y);
                 panelPP.Controls.Add(LblClassePp[i]);
 
-                TxbClassePp.Add(new TextBox());
-                TxbClassePp[i].Name = "_txbClassePp_" + i;
-                TxbClassePp[i].Text = Principal.ListePp[i];
-                TxbClassePp[i].Location = new System.Drawing.Point(200, y);
-                TxbClassePp[i].Width = 150;
-                panelPP.Controls.Add(TxbClassePp[i]);
+                CbxClassePp.Add(new ComboBox());
+                CbxClassePp[i].Name = "_txbClassePp_" + i;
+                CbxClassePp[i].Location = new System.Drawing.Point(200, y);
+                CbxClassePp[i].Width = 150;
+                panelPP.Controls.Add(CbxClassePp[i]);
+                string resourceData = Properties.Resources.Profs;
+                string[] words = resourceData.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string lignes in words)
+                {
+                    CbxClassePp[i].Items.Add(lignes);
+                }
+
+                CbxClassePp[i].Text = Principal.ListePp[i];
                 y = y + 50;
                 classe++;
             }
@@ -45,7 +52,7 @@ namespace Constitution_des_classes
         {
             for (int i = 0; i < Principal.NbDivisions; i++)
             {
-                Principal.ListePp[i] = TxbClassePp[i].Text;
+                Principal.ListePp[i] = CbxClassePp[i].Text;
             }
 
             this.Close();
