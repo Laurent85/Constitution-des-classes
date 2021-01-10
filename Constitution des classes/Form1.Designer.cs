@@ -28,14 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Principal));
             this.btnParcourir = new System.Windows.Forms.Button();
             this.lblClasses = new System.Windows.Forms.Label();
-            this.txbNombreClasses = new System.Windows.Forms.TextBox();
             this.lblCheminFichierExcel = new System.Windows.Forms.Label();
             this.btnValiderConfig = new System.Windows.Forms.Button();
             this.tabPrincipal = new System.Windows.Forms.TabControl();
             this.Configuration = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cbxNombreClasses = new System.Windows.Forms.ComboBox();
+            this.chkAffecterEleves = new System.Windows.Forms.CheckBox();
+            this.btnPP = new System.Windows.Forms.Button();
             this.lblAnnée = new System.Windows.Forms.Label();
             this.cbxAnnée = new System.Windows.Forms.ComboBox();
             this.btnWord = new System.Windows.Forms.Button();
@@ -44,6 +47,7 @@
             this.grpBilan = new System.Windows.Forms.GroupBox();
             this.cbxNbAjoutEleves = new System.Windows.Forms.ComboBox();
             this.grpResume = new System.Windows.Forms.GroupBox();
+            this.lblNiveau = new System.Windows.Forms.Label();
             this.lblNbGroupesOptions = new System.Windows.Forms.Label();
             this.lblNbOptions = new System.Windows.Forms.Label();
             this.lblNbClasses = new System.Windows.Forms.Label();
@@ -53,7 +57,7 @@
             this.grpMariagesOptions = new System.Windows.Forms.GroupBox();
             this.grpOptions = new System.Windows.Forms.GroupBox();
             this.grpEffectifs = new System.Windows.Forms.GroupBox();
-            this.btnPP = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.tabPrincipal.SuspendLayout();
             this.Configuration.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -78,14 +82,6 @@
             this.lblClasses.Size = new System.Drawing.Size(110, 13);
             this.lblClasses.TabIndex = 1;
             this.lblClasses.Text = "Combien de classes ?";
-            // 
-            // txbNombreClasses
-            // 
-            this.txbNombreClasses.Location = new System.Drawing.Point(144, 115);
-            this.txbNombreClasses.Name = "txbNombreClasses";
-            this.txbNombreClasses.Size = new System.Drawing.Size(45, 20);
-            this.txbNombreClasses.TabIndex = 2;
-            this.txbNombreClasses.TextChanged += new System.EventHandler(this.txbNombreClasses_TextChanged);
             // 
             // lblCheminFichierExcel
             // 
@@ -120,6 +116,7 @@
             // Configuration
             // 
             this.Configuration.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.Configuration.Controls.Add(this.label3);
             this.Configuration.Controls.Add(this.panel1);
             this.Configuration.Controls.Add(this.label1);
             this.Configuration.Controls.Add(this.grpBilan);
@@ -138,6 +135,8 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.LightGray;
+            this.panel1.Controls.Add(this.cbxNombreClasses);
+            this.panel1.Controls.Add(this.chkAffecterEleves);
             this.panel1.Controls.Add(this.btnPP);
             this.panel1.Controls.Add(this.lblAnnée);
             this.panel1.Controls.Add(this.cbxAnnée);
@@ -145,13 +144,48 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.btnParcourir);
             this.panel1.Controls.Add(this.lblClasses);
-            this.panel1.Controls.Add(this.txbNombreClasses);
             this.panel1.Controls.Add(this.lblCheminFichierExcel);
             this.panel1.Controls.Add(this.btnValiderConfig);
             this.panel1.Location = new System.Drawing.Point(31, 129);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(813, 207);
             this.panel1.TabIndex = 16;
+            // 
+            // cbxNombreClasses
+            // 
+            this.cbxNombreClasses.FormattingEnabled = true;
+            this.cbxNombreClasses.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"});
+            this.cbxNombreClasses.Location = new System.Drawing.Point(146, 115);
+            this.cbxNombreClasses.Name = "cbxNombreClasses";
+            this.cbxNombreClasses.Size = new System.Drawing.Size(48, 21);
+            this.cbxNombreClasses.TabIndex = 11;
+            this.cbxNombreClasses.SelectedIndexChanged += new System.EventHandler(this.cbxNombreClasses_SelectedIndexChanged);
+            // 
+            // chkAffecterEleves
+            // 
+            this.chkAffecterEleves.AutoSize = true;
+            this.chkAffecterEleves.Location = new System.Drawing.Point(654, 110);
+            this.chkAffecterEleves.Name = "chkAffecterEleves";
+            this.chkAffecterEleves.Size = new System.Drawing.Size(131, 30);
+            this.chkAffecterEleves.TabIndex = 10;
+            this.chkAffecterEleves.Text = "  Affecter des élèves\r\n  aux options en rouge";
+            this.chkAffecterEleves.UseVisualStyleBackColor = true;
+            // 
+            // btnPP
+            // 
+            this.btnPP.Location = new System.Drawing.Point(649, 64);
+            this.btnPP.Name = "btnPP";
+            this.btnPP.Size = new System.Drawing.Size(128, 23);
+            this.btnPP.TabIndex = 9;
+            this.btnPP.Text = "Affecter les PP";
+            this.btnPP.UseVisualStyleBackColor = true;
+            this.btnPP.Click += new System.EventHandler(this.btnPP_Click);
             // 
             // lblAnnée
             // 
@@ -195,11 +229,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.Orchid;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.CornflowerBlue;
             this.label2.Location = new System.Drawing.Point(27, 12);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(126, 26);
+            this.label2.Size = new System.Drawing.Size(140, 26);
             this.label2.TabIndex = 5;
             this.label2.Text = "Initialisation";
             // 
@@ -272,6 +306,7 @@
             // grpResume
             // 
             this.grpResume.BackColor = System.Drawing.Color.LightGray;
+            this.grpResume.Controls.Add(this.lblNiveau);
             this.grpResume.Controls.Add(this.lblNbGroupesOptions);
             this.grpResume.Controls.Add(this.lblNbOptions);
             this.grpResume.Controls.Add(this.lblNbClasses);
@@ -285,10 +320,21 @@
             this.grpResume.TabStop = false;
             this.grpResume.Text = "Résumé";
             // 
+            // lblNiveau
+            // 
+            this.lblNiveau.AutoSize = true;
+            this.lblNiveau.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNiveau.ForeColor = System.Drawing.Color.Blue;
+            this.lblNiveau.Location = new System.Drawing.Point(30, 48);
+            this.lblNiveau.Name = "lblNiveau";
+            this.lblNiveau.Size = new System.Drawing.Size(79, 25);
+            this.lblNiveau.TabIndex = 11;
+            this.lblNiveau.Text = "Niveau";
+            // 
             // lblNbGroupesOptions
             // 
             this.lblNbGroupesOptions.AutoSize = true;
-            this.lblNbGroupesOptions.Location = new System.Drawing.Point(32, 206);
+            this.lblNbGroupesOptions.Location = new System.Drawing.Point(32, 274);
             this.lblNbGroupesOptions.Name = "lblNbGroupesOptions";
             this.lblNbGroupesOptions.Size = new System.Drawing.Size(145, 13);
             this.lblNbGroupesOptions.TabIndex = 10;
@@ -297,7 +343,7 @@
             // lblNbOptions
             // 
             this.lblNbOptions.AutoSize = true;
-            this.lblNbOptions.Location = new System.Drawing.Point(32, 175);
+            this.lblNbOptions.Location = new System.Drawing.Point(32, 243);
             this.lblNbOptions.Name = "lblNbOptions";
             this.lblNbOptions.Size = new System.Drawing.Size(89, 13);
             this.lblNbOptions.TabIndex = 9;
@@ -306,7 +352,7 @@
             // lblNbClasses
             // 
             this.lblNbClasses.AutoSize = true;
-            this.lblNbClasses.Location = new System.Drawing.Point(32, 143);
+            this.lblNbClasses.Location = new System.Drawing.Point(32, 211);
             this.lblNbClasses.Name = "lblNbClasses";
             this.lblNbClasses.Size = new System.Drawing.Size(97, 13);
             this.lblNbClasses.TabIndex = 8;
@@ -315,7 +361,7 @@
             // lblGarcons
             // 
             this.lblGarcons.AutoSize = true;
-            this.lblGarcons.Location = new System.Drawing.Point(29, 76);
+            this.lblGarcons.Location = new System.Drawing.Point(29, 144);
             this.lblGarcons.Name = "lblGarcons";
             this.lblGarcons.Size = new System.Drawing.Size(72, 13);
             this.lblGarcons.TabIndex = 5;
@@ -324,7 +370,7 @@
             // lblFilles
             // 
             this.lblFilles.AutoSize = true;
-            this.lblFilles.Location = new System.Drawing.Point(29, 102);
+            this.lblFilles.Location = new System.Drawing.Point(29, 170);
             this.lblFilles.Name = "lblFilles";
             this.lblFilles.Size = new System.Drawing.Size(54, 13);
             this.lblFilles.TabIndex = 6;
@@ -334,7 +380,7 @@
             // 
             this.lblTotalEleves.AutoSize = true;
             this.lblTotalEleves.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalEleves.Location = new System.Drawing.Point(29, 41);
+            this.lblTotalEleves.Location = new System.Drawing.Point(29, 109);
             this.lblTotalEleves.Name = "lblTotalEleves";
             this.lblTotalEleves.Size = new System.Drawing.Size(77, 13);
             this.lblTotalEleves.TabIndex = 7;
@@ -371,15 +417,14 @@
             this.grpEffectifs.TabStop = false;
             this.grpEffectifs.Text = "Effectifs classes";
             // 
-            // btnPP
+            // label3
             // 
-            this.btnPP.Location = new System.Drawing.Point(649, 112);
-            this.btnPP.Name = "btnPP";
-            this.btnPP.Size = new System.Drawing.Size(128, 23);
-            this.btnPP.TabIndex = 9;
-            this.btnPP.Text = "Affecter les PP";
-            this.btnPP.UseVisualStyleBackColor = true;
-            this.btnPP.Click += new System.EventHandler(this.btnPP_Click);
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(1416, 72);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(99, 13);
+            this.label3.TabIndex = 17;
+            this.label3.Text = "Combien d\'élèves ?";
             // 
             // Principal
             // 
@@ -387,6 +432,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1652, 1041);
             this.Controls.Add(this.tabPrincipal);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Principal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Constitution des classes";
@@ -406,7 +452,6 @@
 
         private System.Windows.Forms.Button btnParcourir;
         private System.Windows.Forms.Label lblClasses;
-        private System.Windows.Forms.TextBox txbNombreClasses;
         private System.Windows.Forms.Label lblCheminFichierExcel;
         private System.Windows.Forms.Button btnValiderConfig;
         private System.Windows.Forms.TabControl tabPrincipal;
@@ -430,6 +475,10 @@
         private System.Windows.Forms.Label lblAnnée;
         private System.Windows.Forms.ComboBox cbxAnnée;
         private System.Windows.Forms.Button btnPP;
+        private System.Windows.Forms.CheckBox chkAffecterEleves;
+        private System.Windows.Forms.Label lblNiveau;
+        private System.Windows.Forms.ComboBox cbxNombreClasses;
+        private System.Windows.Forms.Label label3;
     }
 }
 

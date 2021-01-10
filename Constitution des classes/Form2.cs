@@ -13,7 +13,6 @@ namespace Constitution_des_classes
 
         public Principal Principal = new Principal();
 
-        public List<System.Windows.Forms.TextBox> TxbPp = new List<System.Windows.Forms.TextBox>();
         public List<Label> LblClassePp = new List<Label>();
         public List<ComboBox> CbxClassePp = new List<ComboBox>();
 
