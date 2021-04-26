@@ -354,8 +354,8 @@ namespace Constitution_des_classes
             lblGarcons.Text = NbGarcons.ToString() + @" garçons";
             lblFilles.Text = NbFilles.ToString() + @" filles";
             lblNbClasses.Text = NbDivisions.ToString() + @" classes";
-            lblNbOptions.Text = ListeOptions.Rows.Count-1 + @" options";
-            lblNbGroupesOptions.Text = ListeMariagesOptions.Rows.Count-1 + @" groupes d'options";
+            lblNbOptions.Text = ListeOptions.Rows.Count - 1 + @" options";
+            lblNbGroupesOptions.Text = ListeMariagesOptions.Rows.Count - 1 + @" groupes d'options";
             NbElevesTotal = NbGarcons + NbFilles;
             lblTotalEleves.Text = NbElevesTotal.ToString() + @" élèves au total";
             MoyenneElevesClasse = (NbElevesTotal / NbDivisions);
@@ -1010,21 +1010,21 @@ namespace Constitution_des_classes
             VerifierCasesCochables();
         }
 
-        private void RestartProgram()
-        {
-            // Get file path of current process
-            var filePath = Assembly.GetExecutingAssembly().Location;
-            //var filePath = Application.ExecutablePath;  // for WinForms
+        //private void RestartProgram()
+        //{
+        //    // Get file path of current process
+        //    var filePath = Assembly.GetExecutingAssembly().Location;
+        //    //var filePath = Application.ExecutablePath;  // for WinForms
 
-            // Start program
-            Process.Start(filePath);
+        //    // Start program
+        //    Process.Start(filePath);
 
-            // For Windows Forms app
-            System.Windows.Forms.Application.Exit();
+        //    // For Windows Forms app
+        //    System.Windows.Forms.Application.Exit();
 
-            // For all Windows application but typically for Console app.
-            //Environment.Exit(0);
-        }
+        //    // For all Windows application but typically for Console app.
+        //    //Environment.Exit(0);
+        //}
 
         private void btnWord_Click(object sender, EventArgs e)
         {
@@ -1051,7 +1051,6 @@ namespace Constitution_des_classes
                 title.Bold();
                 title.UnderlineColor(Color.DarkRed);
                 title.Alignment = Alignment.center;
-                //title.Highlight(Highlight.yellow);
                 doc.InsertParagraph();
 
                 var résumé1 = doc.InsertParagraph(NbElevesTotal + " élèves = " + NbDivisions + " divisions");
@@ -1202,7 +1201,6 @@ namespace Constitution_des_classes
                                             tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Top, new Border(BorderStyle.Tcbs_none, BorderSize.one, 1, Color.Red));
                                             tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().Italic();
                                             tableau.Rows[nbLignes].Cells[colonneBilan.Index].Paragraphs.First().FontSize(8).Font(new Xceed.Document.NET.Font("Calibri"));
-                                            //b = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Gray);
                                             tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Left, b);
                                             tableau.Rows[nbLignes].Cells[colonneBilan.Index].SetBorder(TableCellBorderType.Right, b);
                                         }
@@ -1219,7 +1217,6 @@ namespace Constitution_des_classes
                         {
                             if (tableau.Rows[i].Cells[j].Paragraphs[0].Text == "")
                             {
-                                //if (Tableau.Rows[i].Cells[j].Paragraphs.First().Text == "")
                                 {
                                     compteur++;
 
@@ -1231,8 +1228,6 @@ namespace Constitution_des_classes
                                 }
                             }
                         }
-
-                        //Tableau.Rows[1].Height=(0.6);
                     }
                 }
 
