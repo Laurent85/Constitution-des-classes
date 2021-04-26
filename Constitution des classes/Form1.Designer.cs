@@ -35,6 +35,7 @@
             this.btnValiderConfig = new System.Windows.Forms.Button();
             this.tabPrincipal = new System.Windows.Forms.TabControl();
             this.Configuration = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.cbxNombreClasses = new System.Windows.Forms.ComboBox();
             this.chkAffecterEleves = new System.Windows.Forms.CheckBox();
@@ -57,7 +58,7 @@
             this.grpMariagesOptions = new System.Windows.Forms.GroupBox();
             this.grpOptions = new System.Windows.Forms.GroupBox();
             this.grpEffectifs = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblNiveauInit = new System.Windows.Forms.Label();
             this.tabPrincipal.SuspendLayout();
             this.Configuration.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -132,9 +133,19 @@
             this.Configuration.TabIndex = 0;
             this.Configuration.Text = "Tableau de bord";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(1416, 72);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(99, 13);
+            this.label3.TabIndex = 17;
+            this.label3.Text = "Combien d\'élèves ?";
+            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.LightGray;
+            this.panel1.Controls.Add(this.lblNiveauInit);
             this.panel1.Controls.Add(this.cbxNombreClasses);
             this.panel1.Controls.Add(this.chkAffecterEleves);
             this.panel1.Controls.Add(this.btnPP);
@@ -417,14 +428,15 @@
             this.grpEffectifs.TabStop = false;
             this.grpEffectifs.Text = "Effectifs classes";
             // 
-            // label3
+            // lblNiveauInit
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(1416, 72);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(99, 13);
-            this.label3.TabIndex = 17;
-            this.label3.Text = "Combien d\'élèves ?";
+            this.lblNiveauInit.AutoSize = true;
+            this.lblNiveauInit.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNiveauInit.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.lblNiveauInit.Location = new System.Drawing.Point(311, 12);
+            this.lblNiveauInit.Name = "lblNiveauInit";
+            this.lblNiveauInit.Size = new System.Drawing.Size(0, 26);
+            this.lblNiveauInit.TabIndex = 12;
             // 
             // Principal
             // 
@@ -479,6 +491,7 @@
         private System.Windows.Forms.Label lblNiveau;
         private System.Windows.Forms.ComboBox cbxNombreClasses;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblNiveauInit;
     }
 }
 

@@ -89,6 +89,40 @@ namespace Constitution_des_classes
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 lblCheminFichierExcel.Text = openFileDialog1.FileName;
+
+                var excelApplication = new Microsoft.Office.Interop.Excel.Application();
+
+                var fichierEcolesXlsx = excelApplication.Workbooks.Open(lblCheminFichierExcel.Text);
+                var feuilleEcoles = (Worksheet)fichierEcolesXlsx.ActiveSheet;
+                int dernierRang = feuilleEcoles.Cells.Find("*", Missing.Value,
+                    Missing.Value, Missing.Value,
+                    XlSearchOrder.xlByRows, XlSearchDirection.xlPrevious,
+                    false, Missing.Value, Missing.Value).Row;
+
+                Range = feuilleEcoles.Range["A5:J" + dernierRang];
+                Division = Range[5, 2].Text.Substring(0, 1);
+                if (Division == "3")
+                {
+                    lblNiveauInit.Text = @"Niveau 3ème";
+                    lblNiveau.Text = @"Niveau 3ème";
+                }
+                if (Division == "4")
+                {
+                    lblNiveauInit.Text = @"Niveau 4ème";
+                    lblNiveau.Text = @"Niveau 4ème";
+                }
+                if (Division == "5")
+                {
+                    lblNiveauInit.Text = @"Niveau 5ème";
+                    lblNiveau.Text = @"Niveau 5ème";
+                }
+                if (Division == "6")
+                {
+                    lblNiveauInit.Text = @"Niveau 6ème";
+                    lblNiveau.Text = @"Niveau 6ème";
+                }
+                excelApplication.ActiveWorkbook.Close(false);
+                excelApplication.Quit();
             }
         }
 
@@ -487,6 +521,8 @@ namespace Constitution_des_classes
             btnWord.Enabled = true;
             btnPP.Enabled = true;
             attente.Close();
+            excelApplication.ActiveWorkbook.Close(false);
+            excelApplication.Quit();
         }
 
         private void Classe_Cochee(object sender, EventArgs e)
