@@ -19,7 +19,7 @@ namespace Constitution_des_classes.Properties {
     // à l'aide d'un outil, tel que ResGen ou Visual Studio.
     // Pour ajouter ou supprimer un membre, modifiez votre fichier .ResX, puis réexécutez ResGen
     // avec l'option /str ou régénérez votre projet VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -61,7 +61,46 @@ namespace Constitution_des_classes.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à .
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LOGO1 {
+            get {
+                object obj = ResourceManager.GetObject("LOGO1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à BAHAIN Bruno
+        ///BARRAIS Anne-Marie
+        ///BENMEZIANI  Alexandra
+        ///BOCHE Valérie
+        ///BROSSELIN Nelly
+        ///CARRAUT Jonathan
+        ///CART Ophélie
+        ///CHIRON Lucie
+        ///DUVEAU Quentin
+        ///FOSSI Gerdis
+        ///FOURNIER Julie
+        ///FRANCHETEAU Virginie
+        ///GABORIAU François
+        ///GANDRILLON Kévin
+        ///GLUMINEAU Catherine
+        ///HENRIQUES Aurélie
+        ///HERBRETEAU Gaëlle
+        ///ISNEL MORIN Céline
+        ///LIMOUSIN Catherine
+        ///LOISEAU Emeline
+        ///LUNARD Yveline
+        ///PAIN Thierry
+        ///PAPIN Grégoire
+        ///PEROTEAU Fabienne
+        ///PERROCHEAU Didier
+        ///POTIER Erik
+        ///QUAIRIOUX Jacky
+        ///SIREAU Lola
+        ///TESSON Emilie
+        ///TRICHET Philip [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         internal static string Profs {
             get {

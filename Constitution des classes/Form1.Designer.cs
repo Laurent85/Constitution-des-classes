@@ -35,8 +35,10 @@
             this.btnValiderConfig = new System.Windows.Forms.Button();
             this.tabPrincipal = new System.Windows.Forms.TabControl();
             this.Configuration = new System.Windows.Forms.TabPage();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblNiveauInit = new System.Windows.Forms.Label();
             this.cbxNombreClasses = new System.Windows.Forms.ComboBox();
             this.chkAffecterEleves = new System.Windows.Forms.CheckBox();
             this.btnPP = new System.Windows.Forms.Button();
@@ -58,9 +60,9 @@
             this.grpMariagesOptions = new System.Windows.Forms.GroupBox();
             this.grpOptions = new System.Windows.Forms.GroupBox();
             this.grpEffectifs = new System.Windows.Forms.GroupBox();
-            this.lblNiveauInit = new System.Windows.Forms.Label();
             this.tabPrincipal.SuspendLayout();
             this.Configuration.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.grpResume.SuspendLayout();
             this.SuspendLayout();
@@ -117,6 +119,7 @@
             // Configuration
             // 
             this.Configuration.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.Configuration.Controls.Add(this.pictureBox1);
             this.Configuration.Controls.Add(this.label3);
             this.Configuration.Controls.Add(this.panel1);
             this.Configuration.Controls.Add(this.label1);
@@ -132,6 +135,17 @@
             this.Configuration.Size = new System.Drawing.Size(1644, 1015);
             this.Configuration.TabIndex = 0;
             this.Configuration.Text = "Tableau de bord";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.InitialImage = global::Constitution_des_classes.Properties.Resources.LOGO1;
+            this.pictureBox1.Location = new System.Drawing.Point(31, 31);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(158, 69);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 18;
+            this.pictureBox1.TabStop = false;
             // 
             // label3
             // 
@@ -161,6 +175,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(813, 207);
             this.panel1.TabIndex = 16;
+            // 
+            // lblNiveauInit
+            // 
+            this.lblNiveauInit.AutoSize = true;
+            this.lblNiveauInit.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNiveauInit.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.lblNiveauInit.Location = new System.Drawing.Point(311, 12);
+            this.lblNiveauInit.Name = "lblNiveauInit";
+            this.lblNiveauInit.Size = new System.Drawing.Size(0, 26);
+            this.lblNiveauInit.TabIndex = 12;
             // 
             // cbxNombreClasses
             // 
@@ -428,16 +452,6 @@
             this.grpEffectifs.TabStop = false;
             this.grpEffectifs.Text = "Effectifs classes";
             // 
-            // lblNiveauInit
-            // 
-            this.lblNiveauInit.AutoSize = true;
-            this.lblNiveauInit.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNiveauInit.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.lblNiveauInit.Location = new System.Drawing.Point(311, 12);
-            this.lblNiveauInit.Name = "lblNiveauInit";
-            this.lblNiveauInit.Size = new System.Drawing.Size(0, 26);
-            this.lblNiveauInit.TabIndex = 12;
-            // 
             // Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -452,6 +466,7 @@
             this.tabPrincipal.ResumeLayout(false);
             this.Configuration.ResumeLayout(false);
             this.Configuration.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.grpResume.ResumeLayout(false);
@@ -492,6 +507,7 @@
         private System.Windows.Forms.ComboBox cbxNombreClasses;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblNiveauInit;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

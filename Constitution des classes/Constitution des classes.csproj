@@ -141,6 +141,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="classes.ico" />
+    <EmbeddedResource Include="Resources\LOGO1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
