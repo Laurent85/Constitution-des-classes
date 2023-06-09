@@ -156,7 +156,7 @@ namespace Constitution_des_classes
                 Missing.Value, Missing.Value,
                 XlSearchOrder.xlByRows, XlSearchDirection.xlPrevious,
                 false, Missing.Value, Missing.Value).Row;
-            Range = feuilleEcoles.Range["A5:J" + dernierRang];
+            Range = feuilleEcoles.Range["A5:M" + dernierRang];
             tabPrincipal.Dock = DockStyle.Fill;
 
             CréationOnglet(new TabPage("OngletEleves"), "Tous les élèves", ListeEleves);
@@ -245,6 +245,9 @@ namespace Constitution_des_classes
             ListeEleves.Columns.Add(Range[0, 8].Text, Range[0, 8].Text);
             ListeEleves.Columns.Add(Range[0, 9].Text, Range[0, 9].Text);
             ListeEleves.Columns.Add(Range[0, 10].Text, Range[0, 10].Text);
+            ListeEleves.Columns.Add(Range[0, 11].Text, Range[0, 11].Text);
+            ListeEleves.Columns.Add(Range[0, 12].Text, Range[0, 12].Text);
+            ListeEleves.Columns.Add(Range[0, 13].Text, Range[0, 13].Text);
 
             ListeEcoles.Columns.Add("Nom", "Nom");
             ListeEcoles.Columns.Add("Elèves", "Elèves");
@@ -271,7 +274,7 @@ namespace Constitution_des_classes
             {
                 ListeEleves.Rows.Add();
 
-                for (int j = 1; j <= 10; j++)
+                for (int j = 1; j <= 13; j++)
                 {
                     ListViewItem cellule = new ListViewItem();
 
@@ -306,7 +309,7 @@ namespace Constitution_des_classes
                             }
                         }
 
-                        if (j == 7 || j == 8 || j == 9 || j == 10)
+                        if (j == 7 || j == 8 || j == 9 || j == 10 || j == 11 || j == 12 || j == 13)
                         {
                             RechercherTexte(ListeOptions, cellule.Text, 0);
 
@@ -335,16 +338,16 @@ namespace Constitution_des_classes
                         if (j == 6)
                         {
                             cellule.Text = "";
-                            for (int c = 7; c <= 10; c++)
+                            for (int c = 7; c <= 13; c++)
                             {
                                 if ((Range.Cells[i, c].Value2) != null)
 
                                 {
-                                    if (c == 7)
+                                    if ((c == 7) && ((Range.Cells[i, c].Value2) != null))
                                     {
                                         cellule.Text = Range.Cells[i, c].Value2.ToString();
                                     }
-                                    else
+                                    else if (!(cellule.Text.Contains(Range.Cells[i, c].Value2.ToString())))
                                     {
                                         cellule.Text = cellule.Text + @"/" + Range.Cells[i, c].Value2.ToString();
                                     }
@@ -1387,6 +1390,41 @@ namespace Constitution_des_classes
                     }
                 }
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var excelApplication = new Microsoft.Office.Interop.Excel.Application();
+
+            var fichierEcolesXlsx = excelApplication.Workbooks.Open(lblCheminFichierExcel.Text);
+            var feuilleEcoles = (Worksheet)fichierEcolesXlsx.ActiveSheet;
+            int dernierRang = feuilleEcoles.Cells.Find("*", Missing.Value,
+                Missing.Value, Missing.Value,
+                XlSearchOrder.xlByRows, XlSearchDirection.xlPrevious,
+                false, Missing.Value, Missing.Value).Row;
+
+            Range = feuilleEcoles.Range["A5:J" + dernierRang];
+
+            for (int r = 1; r < dernierRang; r++)
+            {
+                for (int i = 1; i < 14; i++)
+                {
+                    //My_DGV : nom de ton datagridview
+                    for (int j = i + 1; j < 14; j++)
+                    {
+
+                        
+                        {
+                            if (Range.Rows[r].Cells[i].Value == Range.Rows[r].Cells[j].Value)
+                            {
+                                Range.Rows[r].Cells[j].Value = "";
+                            }
+                        }
+                    }
+                }
+            }
+
+            fichierEcolesXlsx.Save();
         }
     }
 

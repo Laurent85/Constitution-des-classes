@@ -60,6 +60,7 @@
             this.grpMariagesOptions = new System.Windows.Forms.GroupBox();
             this.grpOptions = new System.Windows.Forms.GroupBox();
             this.grpEffectifs = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabPrincipal.SuspendLayout();
             this.Configuration.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -113,12 +114,13 @@
             this.tabPrincipal.Location = new System.Drawing.Point(0, 0);
             this.tabPrincipal.Name = "tabPrincipal";
             this.tabPrincipal.SelectedIndex = 0;
-            this.tabPrincipal.Size = new System.Drawing.Size(1652, 1041);
+            this.tabPrincipal.Size = new System.Drawing.Size(1652, 1023);
             this.tabPrincipal.TabIndex = 5;
             // 
             // Configuration
             // 
             this.Configuration.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.Configuration.Controls.Add(this.button1);
             this.Configuration.Controls.Add(this.pictureBox1);
             this.Configuration.Controls.Add(this.label3);
             this.Configuration.Controls.Add(this.panel1);
@@ -132,7 +134,7 @@
             this.Configuration.Location = new System.Drawing.Point(4, 22);
             this.Configuration.Name = "Configuration";
             this.Configuration.Padding = new System.Windows.Forms.Padding(3);
-            this.Configuration.Size = new System.Drawing.Size(1644, 1015);
+            this.Configuration.Size = new System.Drawing.Size(1644, 997);
             this.Configuration.TabIndex = 0;
             this.Configuration.Text = "Tableau de bord";
             // 
@@ -140,7 +142,7 @@
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.InitialImage = global::Constitution_des_classes.Properties.Resources.LOGO1;
-            this.pictureBox1.Location = new System.Drawing.Point(31, 31);
+            this.pictureBox1.Location = new System.Drawing.Point(31, 18);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(158, 69);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -150,7 +152,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(1416, 72);
+            this.label3.Location = new System.Drawing.Point(1416, 51);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(99, 13);
             this.label3.TabIndex = 17;
@@ -171,9 +173,9 @@
             this.panel1.Controls.Add(this.lblClasses);
             this.panel1.Controls.Add(this.lblCheminFichierExcel);
             this.panel1.Controls.Add(this.btnValiderConfig);
-            this.panel1.Location = new System.Drawing.Point(31, 129);
+            this.panel1.Location = new System.Drawing.Point(31, 106);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(813, 207);
+            this.panel1.Size = new System.Drawing.Size(813, 230);
             this.panel1.TabIndex = 16;
             // 
             // lblNiveauInit
@@ -277,7 +279,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Forte", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label1.Location = new System.Drawing.Point(470, 43);
+            this.label1.Location = new System.Drawing.Point(472, 27);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(460, 44);
             this.label1.TabIndex = 15;
@@ -286,9 +288,9 @@
             // grpBilan
             // 
             this.grpBilan.BackColor = System.Drawing.Color.LightGray;
-            this.grpBilan.Location = new System.Drawing.Point(31, 732);
+            this.grpBilan.Location = new System.Drawing.Point(31, 776);
             this.grpBilan.Name = "grpBilan";
-            this.grpBilan.Size = new System.Drawing.Size(1567, 219);
+            this.grpBilan.Size = new System.Drawing.Size(1567, 195);
             this.grpBilan.TabIndex = 14;
             this.grpBilan.TabStop = false;
             this.grpBilan.Text = "Bilan";
@@ -331,7 +333,7 @@
             "29",
             "30",
             "31"});
-            this.cbxNbAjoutEleves.Location = new System.Drawing.Point(1531, 64);
+            this.cbxNbAjoutEleves.Location = new System.Drawing.Point(1531, 43);
             this.cbxNbAjoutEleves.MaxDropDownItems = 40;
             this.cbxNbAjoutEleves.Name = "cbxNbAjoutEleves";
             this.cbxNbAjoutEleves.Size = new System.Drawing.Size(67, 21);
@@ -350,7 +352,7 @@
             this.grpResume.Controls.Add(this.lblTotalEleves);
             this.grpResume.Location = new System.Drawing.Point(31, 366);
             this.grpResume.Name = "grpResume";
-            this.grpResume.Size = new System.Drawing.Size(207, 341);
+            this.grpResume.Size = new System.Drawing.Size(207, 390);
             this.grpResume.TabIndex = 12;
             this.grpResume.TabStop = false;
             this.grpResume.Text = "Résumé";
@@ -424,9 +426,9 @@
             // grpMariagesOptions
             // 
             this.grpMariagesOptions.BackColor = System.Drawing.Color.LightGray;
-            this.grpMariagesOptions.Location = new System.Drawing.Point(889, 129);
+            this.grpMariagesOptions.Location = new System.Drawing.Point(889, 104);
             this.grpMariagesOptions.Name = "grpMariagesOptions";
-            this.grpMariagesOptions.Size = new System.Drawing.Size(709, 578);
+            this.grpMariagesOptions.Size = new System.Drawing.Size(709, 652);
             this.grpMariagesOptions.TabIndex = 11;
             this.grpMariagesOptions.TabStop = false;
             this.grpMariagesOptions.Text = "Mariages d\'options";
@@ -436,7 +438,7 @@
             this.grpOptions.BackColor = System.Drawing.Color.LightGray;
             this.grpOptions.Location = new System.Drawing.Point(569, 366);
             this.grpOptions.Name = "grpOptions";
-            this.grpOptions.Size = new System.Drawing.Size(275, 341);
+            this.grpOptions.Size = new System.Drawing.Size(275, 390);
             this.grpOptions.TabIndex = 10;
             this.grpOptions.TabStop = false;
             this.grpOptions.Text = "Options";
@@ -447,16 +449,26 @@
             this.grpEffectifs.Location = new System.Drawing.Point(272, 366);
             this.grpEffectifs.Name = "grpEffectifs";
             this.grpEffectifs.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.grpEffectifs.Size = new System.Drawing.Size(264, 341);
+            this.grpEffectifs.Size = new System.Drawing.Size(264, 390);
             this.grpEffectifs.TabIndex = 9;
             this.grpEffectifs.TabStop = false;
             this.grpEffectifs.Text = "Effectifs classes";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(259, 43);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 19;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1652, 1041);
+            this.ClientSize = new System.Drawing.Size(1652, 1023);
             this.Controls.Add(this.tabPrincipal);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Principal";
@@ -508,6 +520,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblNiveauInit;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button button1;
     }
 }
 
