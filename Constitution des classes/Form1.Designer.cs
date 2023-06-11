@@ -38,6 +38,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnNettoyageFichier = new System.Windows.Forms.Button();
             this.lblNiveauInit = new System.Windows.Forms.Label();
             this.cbxNombreClasses = new System.Windows.Forms.ComboBox();
             this.chkAffecterEleves = new System.Windows.Forms.CheckBox();
@@ -60,7 +61,6 @@
             this.grpMariagesOptions = new System.Windows.Forms.GroupBox();
             this.grpOptions = new System.Windows.Forms.GroupBox();
             this.grpEffectifs = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.tabPrincipal.SuspendLayout();
             this.Configuration.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -81,7 +81,7 @@
             // lblClasses
             // 
             this.lblClasses.AutoSize = true;
-            this.lblClasses.Location = new System.Drawing.Point(19, 118);
+            this.lblClasses.Location = new System.Drawing.Point(19, 148);
             this.lblClasses.Name = "lblClasses";
             this.lblClasses.Size = new System.Drawing.Size(110, 13);
             this.lblClasses.TabIndex = 1;
@@ -99,7 +99,7 @@
             // 
             // btnValiderConfig
             // 
-            this.btnValiderConfig.Location = new System.Drawing.Point(21, 161);
+            this.btnValiderConfig.Location = new System.Drawing.Point(21, 191);
             this.btnValiderConfig.Name = "btnValiderConfig";
             this.btnValiderConfig.Size = new System.Drawing.Size(137, 23);
             this.btnValiderConfig.TabIndex = 4;
@@ -120,7 +120,6 @@
             // Configuration
             // 
             this.Configuration.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.Configuration.Controls.Add(this.button1);
             this.Configuration.Controls.Add(this.pictureBox1);
             this.Configuration.Controls.Add(this.label3);
             this.Configuration.Controls.Add(this.panel1);
@@ -161,6 +160,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.LightGray;
+            this.panel1.Controls.Add(this.btnNettoyageFichier);
             this.panel1.Controls.Add(this.lblNiveauInit);
             this.panel1.Controls.Add(this.cbxNombreClasses);
             this.panel1.Controls.Add(this.chkAffecterEleves);
@@ -177,6 +177,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(813, 230);
             this.panel1.TabIndex = 16;
+            // 
+            // btnNettoyageFichier
+            // 
+            this.btnNettoyageFichier.Location = new System.Drawing.Point(21, 93);
+            this.btnNettoyageFichier.Name = "btnNettoyageFichier";
+            this.btnNettoyageFichier.Size = new System.Drawing.Size(137, 23);
+            this.btnNettoyageFichier.TabIndex = 19;
+            this.btnNettoyageFichier.Text = "Nettoyer le fichier excel";
+            this.btnNettoyageFichier.UseVisualStyleBackColor = true;
+            this.btnNettoyageFichier.Click += new System.EventHandler(this.btnNettoyageFichierExcel_Click);
             // 
             // lblNiveauInit
             // 
@@ -198,7 +208,7 @@
             "4",
             "5",
             "6"});
-            this.cbxNombreClasses.Location = new System.Drawing.Point(146, 115);
+            this.cbxNombreClasses.Location = new System.Drawing.Point(146, 145);
             this.cbxNombreClasses.Name = "cbxNombreClasses";
             this.cbxNombreClasses.Size = new System.Drawing.Size(48, 21);
             this.cbxNombreClasses.TabIndex = 11;
@@ -227,7 +237,7 @@
             // lblAnnée
             // 
             this.lblAnnée.AutoSize = true;
-            this.lblAnnée.Location = new System.Drawing.Point(225, 118);
+            this.lblAnnée.Location = new System.Drawing.Point(225, 148);
             this.lblAnnée.Name = "lblAnnée";
             this.lblAnnée.Size = new System.Drawing.Size(77, 13);
             this.lblAnnée.TabIndex = 8;
@@ -246,7 +256,7 @@
             "2027-2028",
             "2028-2029",
             "2029-2030"});
-            this.cbxAnnée.Location = new System.Drawing.Point(316, 115);
+            this.cbxAnnée.Location = new System.Drawing.Point(316, 145);
             this.cbxAnnée.Name = "cbxAnnée";
             this.cbxAnnée.Size = new System.Drawing.Size(78, 21);
             this.cbxAnnée.TabIndex = 7;
@@ -454,16 +464,6 @@
             this.grpEffectifs.TabStop = false;
             this.grpEffectifs.Text = "Effectifs classes";
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(259, 43);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 19;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -520,7 +520,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblNiveauInit;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnNettoyageFichier;
     }
 }
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Office.Interop.Excel;
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -13,6 +14,7 @@ using Border = Xceed.Document.NET.Border;
 using BorderStyle = Xceed.Document.NET.BorderStyle;
 using Label = System.Windows.Forms.Label;
 using Range = Microsoft.Office.Interop.Excel.Range;
+using System.IO;
 
 namespace Constitution_des_classes
 {
@@ -335,7 +337,7 @@ namespace Constitution_des_classes
                             }
                         }
 
-                        if (j == 6)
+                        if ((j == 6) && (Range.Cells[i, j].Value2 != null))
                         {
                             cellule.Text = "";
                             for (int c = 7; c <= 13; c++)
@@ -524,6 +526,7 @@ namespace Constitution_des_classes
             btnWord.Enabled = true;
             btnPP.Enabled = true;
             attente.Close();
+            //fichierEcolesXlsx.Close();
             excelApplication.ActiveWorkbook.Close(false);
             excelApplication.Quit();
         }
@@ -1392,7 +1395,7 @@ namespace Constitution_des_classes
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnNettoyageFichierExcel_Click(object sender, EventArgs e)
         {
             var excelApplication = new Microsoft.Office.Interop.Excel.Application();
 
@@ -1403,21 +1406,29 @@ namespace Constitution_des_classes
                 XlSearchOrder.xlByRows, XlSearchDirection.xlPrevious,
                 false, Missing.Value, Missing.Value).Row;
 
-            Range = feuilleEcoles.Range["A5:J" + dernierRang];
+            Range = feuilleEcoles.Range["A5:M" + dernierRang];
 
-            for (int r = 1; r < dernierRang; r++)
+            for (int r = 1; r < dernierRang - 3; r++)
             {
                 for (int i = 1; i < 14; i++)
                 {
-                    //My_DGV : nom de ton datagridview
-                    for (int j = i + 1; j < 14; j++)
+                    if ((i == 7) && (Range[r, 7].Value == null))
                     {
+                        Range[r, 7].Value = "PAS DE LV2";
+                    }
 
-                        
+                    if (Range[r, i].Value == "Aucune option")
+                    {
+                        Range[r, i].Value = "";
+                    }
+
+                    for (int j = i + 1; j < 15; j++)
+                    {
+                        if (Range[r, j].Value != null)
                         {
-                            if (Range.Rows[r].Cells[i].Value == Range.Rows[r].Cells[j].Value)
+                            if (Range[r, i].Value == Range[r, j].Value)
                             {
-                                Range.Rows[r].Cells[j].Value = "";
+                                Range[r, j].Value = "";
                             }
                         }
                     }
@@ -1425,6 +1436,9 @@ namespace Constitution_des_classes
             }
 
             fichierEcolesXlsx.Save();
+            fichierEcolesXlsx.Close();
+            //excelApplication.ActiveWorkbook.Close(false);
+            //excelApplication.Quit();
         }
     }
 
