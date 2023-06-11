@@ -40,6 +40,9 @@ namespace Constitution_des_classes
         public int VerifieLigneExiste;
         public int NbOptions;
         public int NbMariagesOptions;
+        public int IndexRang;
+        public int DernierRang;
+        public int NbDoublons;
         public static string Division;
         public DataGridView ListeEleves = new DataGridView();
         public DataGridView ListeEcoles = new DataGridView();
@@ -1397,48 +1400,74 @@ namespace Constitution_des_classes
 
         private void btnNettoyageFichierExcel_Click(object sender, EventArgs e)
         {
+            progressBar1.Visible = true;
+            ThreadNettoyage.RunWorkerAsync();
+        }
+
+        private void ThreadNettoyageMéthode(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
             var excelApplication = new Microsoft.Office.Interop.Excel.Application();
 
             var fichierEcolesXlsx = excelApplication.Workbooks.Open(lblCheminFichierExcel.Text);
             var feuilleEcoles = (Worksheet)fichierEcolesXlsx.ActiveSheet;
-            int dernierRang = feuilleEcoles.Cells.Find("*", Missing.Value,
+            DernierRang = feuilleEcoles.Cells.Find("*", Missing.Value,
                 Missing.Value, Missing.Value,
                 XlSearchOrder.xlByRows, XlSearchDirection.xlPrevious,
                 false, Missing.Value, Missing.Value).Row;
 
-            Range = feuilleEcoles.Range["A5:M" + dernierRang];
+            Range = feuilleEcoles.Range["A5:M" + DernierRang];
+            NbDoublons = 0;
 
-            for (int r = 1; r < dernierRang - 3; r++)
+            for (IndexRang = 1; IndexRang < DernierRang - 3; IndexRang++)
             {
                 for (int i = 1; i < 14; i++)
                 {
-                    if ((i == 7) && (Range[r, 7].Value == null))
+                    if ((i == 7) && (Range[IndexRang, 7].Value == null))
                     {
-                        Range[r, 7].Value = "PAS DE LV2";
+                        Range[IndexRang, 7].Value = "PAS DE LV2";
                     }
 
-                    if (Range[r, i].Value == "Aucune option")
+                    if (Range[IndexRang, i].Value == "Aucune option")
                     {
-                        Range[r, i].Value = "";
+                        Range[IndexRang, i].Value = "";
                     }
 
                     for (int j = i + 1; j < 15; j++)
                     {
-                        if (Range[r, j].Value != null)
+                        if (Range[IndexRang, j].Value != null)
                         {
-                            if (Range[r, i].Value == Range[r, j].Value)
+                            if (Range[IndexRang, i].Value == Range[IndexRang, j].Value)
                             {
-                                Range[r, j].Value = "";
+                                Range[IndexRang, j].Value = "";
+                                NbDoublons++;
                             }
                         }
                     }
+
+                    
                 }
+                ThreadNettoyage.ReportProgress(IndexRang);
             }
 
             fichierEcolesXlsx.Save();
             fichierEcolesXlsx.Close();
             //excelApplication.ActiveWorkbook.Close(false);
             //excelApplication.Quit();
+        }
+
+        private void ThreadNettoyageProgression(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        {
+            progressBar1.Maximum = DernierRang;
+            // Change the value of the ProgressBar to the BackgroundWorker progress.
+            progressBar1.Value = e.ProgressPercentage;
+            // Set the text.
+            
+        }
+
+        private void ThreadNettoyageTerminé(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+             progressBar1.Value = 0;
+             lblNbDoublons.Text = NbDoublons + @" doublon(s) corrigé(s)";
         }
     }
 

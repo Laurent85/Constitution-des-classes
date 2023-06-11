@@ -61,6 +61,9 @@
             this.grpMariagesOptions = new System.Windows.Forms.GroupBox();
             this.grpOptions = new System.Windows.Forms.GroupBox();
             this.grpEffectifs = new System.Windows.Forms.GroupBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.ThreadNettoyage = new System.ComponentModel.BackgroundWorker();
+            this.lblNbDoublons = new System.Windows.Forms.Label();
             this.tabPrincipal.SuspendLayout();
             this.Configuration.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -160,6 +163,8 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.LightGray;
+            this.panel1.Controls.Add(this.lblNbDoublons);
+            this.panel1.Controls.Add(this.progressBar1);
             this.panel1.Controls.Add(this.btnNettoyageFichier);
             this.panel1.Controls.Add(this.lblNiveauInit);
             this.panel1.Controls.Add(this.cbxNombreClasses);
@@ -464,6 +469,30 @@
             this.grpEffectifs.TabStop = false;
             this.grpEffectifs.Text = "Effectifs classes";
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(182, 92);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(175, 23);
+            this.progressBar1.Step = 1;
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.TabIndex = 20;
+            // 
+            // ThreadNettoyage
+            // 
+            this.ThreadNettoyage.WorkerReportsProgress = true;
+            this.ThreadNettoyage.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ThreadNettoyageMéthode);
+            this.ThreadNettoyage.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.ThreadNettoyageProgression);
+            this.ThreadNettoyage.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.ThreadNettoyageTerminé);
+            // 
+            // lblNbDoublons
+            // 
+            this.lblNbDoublons.AutoSize = true;
+            this.lblNbDoublons.Location = new System.Drawing.Point(373, 98);
+            this.lblNbDoublons.Name = "lblNbDoublons";
+            this.lblNbDoublons.Size = new System.Drawing.Size(0, 13);
+            this.lblNbDoublons.TabIndex = 21;
+            // 
             // Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -521,6 +550,9 @@
         private System.Windows.Forms.Label lblNiveauInit;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnNettoyageFichier;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.ComponentModel.BackgroundWorker ThreadNettoyage;
+        private System.Windows.Forms.Label lblNbDoublons;
     }
 }
 
