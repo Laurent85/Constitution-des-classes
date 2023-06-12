@@ -530,8 +530,9 @@ namespace Constitution_des_classes
             btnPP.Enabled = true;
             attente.Close();
             //fichierEcolesXlsx.Close();
-            excelApplication.ActiveWorkbook.Close(false);
-            excelApplication.Quit();
+            //excelApplication.ActiveWorkbook.Close(false);
+            //excelApplication.Quit();
+            TuerProcessus("Excel.exe");
         }
 
         private void Classe_Cochee(object sender, EventArgs e)
@@ -1451,6 +1452,7 @@ namespace Constitution_des_classes
 
             fichierEcolesXlsx.Save();
             fichierEcolesXlsx.Close();
+            TuerProcessus("Excel.exe");
             //excelApplication.ActiveWorkbook.Close(false);
             //excelApplication.Quit();
         }
@@ -1469,6 +1471,7 @@ namespace Constitution_des_classes
              progressBar1.Value = 0;
              lblNbDoublons.Text = NbDoublons + @" doublon(s) corrigé(s)";
         }
+
     }
 
     public static class ExtensionMethods
